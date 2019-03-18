@@ -19,5 +19,7 @@ int main() {
     fourthState.setAcceptable();
     fifthState.setAcceptable();
     sixthState.setAcceptable();
+    string a = "adssdsd";
+    cout << a[0];
     return 0;
 }
