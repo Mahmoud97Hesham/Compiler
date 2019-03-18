@@ -3,4 +3,4 @@ project(LexicalAnalyzer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(LexicalAnalyzer main.cpp NFAState.cpp NFAState.h DFAState.cpp DFAState.h)
+add_executable(LexicalAnalyzer main.cpp NFAState.cpp NFAState.h DFAState.cpp DFAState.h NfaAlgorithm.cpp NfaAlgorithm.h)
