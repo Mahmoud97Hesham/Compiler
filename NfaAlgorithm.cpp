@@ -81,7 +81,7 @@ void NfaAlgorithm::Algorithm(string regularExpression) {
             NfaStates.back().addNextState(dummyState, temp);
             NfaStates.push_back(dummyState);
 
-        } else if (regularExpression[i] == '//') {
+        } else if (regularExpression[i] == '/') {
 
             /* THIS CONDITION IS FOR REGULAR DEFINITIONS */
 

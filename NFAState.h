@@ -19,6 +19,7 @@ public:
     void setAcceptable();
     bool isAcceptable();
     void addNextState(NFAState newState,string input);
+    vector<NFAState> getNextStates();
     bool operator<(const NFAState& src)const
     {
         return false;
