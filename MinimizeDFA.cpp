@@ -32,7 +32,6 @@ vector<DFAState> MinimizeDFA::minimize() {
 
             } else {
                 checkDuplicates = true;
-
                 duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
             }
             minimizedDFAMap.pop();
