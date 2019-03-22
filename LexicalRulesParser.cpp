@@ -141,9 +141,33 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
     allRegularDefinitions.push_back(singleRegularDefinition);
 }
 
+void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
+    vector<string> singleRegularExpression;
+    regularExpression.erase(remove(regularExpression.begin(), regularExpression.end(), ' '), regularExpression.end());
+    vector<string> splitRegularExpressionName = split(regularExpression,':');
+    singleRegularExpression.push_back(splitRegularExpressionName[0]);
+    for(int i = 0;i < allRegularDefinitions.size();i++){
+        size_t start_pos = 0;
+        while((start_pos = splitRegularExpressionName[1].find(allRegularDefinitions[i][0], start_pos)) != std::string::npos) {
+            splitRegularExpressionName[1].replace(start_pos, allRegularDefinitions[i][0].length(), allRegularDefinitions[i][1]);
+            start_pos += allRegularDefinitions[i][1].length();
+        }
+    }
+    for(int i = 0;i < allRegularExpressions.size();i++){
+        size_t start_pos = 0;
+        while((start_pos = splitRegularExpressionName[1].find(allRegularExpressions[i][0], start_pos)) != std::string::npos) {
+            splitRegularExpressionName[1].replace(start_pos, allRegularExpressions[i][0].length(), allRegularExpressions[i][1]);
+            start_pos += allRegularExpressions[i][1].length();
+        }
+    }
+    singleRegularExpression.push_back(splitRegularExpressionName[1]);
+    allRegularExpressions.push_back(singleRegularExpression);
+}
+
 void LexicalRulesParser::readLexicalRules(string fileName){
     ifstream file(fileName);
     string line;
+    int errorInLineNumber = 0;
     while(getline(file,line)){
         if(line.at(0) == '{'){
             handleKeywords(line);
@@ -154,6 +178,13 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         else if((line.find('=') != string::npos) && !(line.find(':') != string::npos)){
             handleRegularDefinition(line);
         }
+        else if(line.find(':') != string::npos){
+            handleRegularExpressions(line);
+        }
+        else{
+            errorInLine.push_back(errorInLineNumber);
+        }
+        errorInLineNumber++;
     }
 }
 

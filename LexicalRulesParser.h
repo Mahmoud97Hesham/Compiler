@@ -18,6 +18,8 @@ class LexicalRulesParser {
     vector<string> allKeywords;
     vector<string> allPunctuations;
     vector<vector<string>> allRegularDefinitions;
+    vector<vector<string>> allRegularExpressions;
+    vector<int> errorInLine;
 
 public:
     void readLexicalRules(string fileName);
@@ -31,6 +33,8 @@ public:
     void handleRegularDefinition(string regularDefinition);
 
     string handleFromToChar(string fromToString);
+
+    void handleRegularExpressions(string regularExpression);
 };
 
 #endif //LEXICALANALYZER_LEXICALRULESPARSER_H
