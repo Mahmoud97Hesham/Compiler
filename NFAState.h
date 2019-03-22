@@ -13,8 +13,9 @@ using namespace std;
 
 class NFAState {
     bool acceptableState = false;
-    vector<NFAState> nextStates;
     map<NFAState,string> inputMap;
+private:
+    vector<NFAState> nextStates;
 public:
     void setAcceptable();
     bool isAcceptable();

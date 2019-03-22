@@ -5,16 +5,22 @@
 #ifndef LEXICALANALYZER_NFAALGORITHM_H
 #define LEXICALANALYZER_NFAALGORITHM_H
 
-#include "NFAState.h"
+#include "NFAStatee.h"
 
 class NfaAlgorithm {
 
-    vector<NFAState> NfaStates;
-    vector <NFAState>StartState;
+    vector<NFAStatee> NfaStates;
+    vector <NFAStatee>StartStateTrack;
+    vector <string> All_inputs;
 
+private:
+    int stateIdCounter=0;
 public:
 
-    void Algorithm(string regularExpression);
+
+    void Algorithm(string token,string regularExpression);
+    vector <string> get_All_inputs();
+   // NFAStatee getStarState();
 
 
 };

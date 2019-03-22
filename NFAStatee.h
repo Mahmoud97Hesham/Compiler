@@ -12,16 +12,18 @@ using namespace std;
 
 
 class NFAStatee {
-    bool acceptableState = false;
+    bool acceptableState = true;
     map<string,vector<int>> inputMap;
     int id;
+    string token;
 public:
     NFAStatee(int idValue);
-    void setAcceptable();
+    void setAcceptable(string token , bool state);
     bool isAcceptable();
     void addTransition(int newStateID,string input);
     vector<int> getTransition(string input);
     vector<int> getEpsilonEquivalent();
+    int getId();
 };
 
 

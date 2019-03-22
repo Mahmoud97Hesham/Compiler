@@ -21,6 +21,11 @@ void NFAState::addNextState(NFAState newState,string input){
     nextStates.push_back(newState);
     //inputMap[newState] = input;
 }
+vector<NFAState>NFAState ::getNextStates(){
+    return  this->nextStates;
+
+}
+
 
 
 

@@ -8,17 +8,16 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <iostream>
 
 using namespace std;
 
-void NFAStatee::setAcceptable(){
-    acceptableState = true;
-}
+
 bool NFAStatee::isAcceptable(){
     return acceptableState;
 }
 
-NFAStatee::NFAStatee(int idValue){
+NFAStatee::NFAStatee(int idValue ){
    id = idValue;
 }
 
@@ -27,6 +26,7 @@ void NFAStatee::addTransition(int newStateID,string input){
     inputStatesIDs.push_back(newStateID);
     inputMap[input] = inputStatesIDs;
 
+    cout <<this->getId()<<" "<< newStateID <<" "<<input<<endl ;
 }
 
 vector<int> NFAStatee::getTransition(string input){
@@ -34,4 +34,13 @@ vector<int> NFAStatee::getTransition(string input){
 }
 vector<int> NFAStatee::getEpsilonEquivalent(){
     return inputMap["epsilon"];
+}
+int NFAStatee ::getId() {
+    return  this->id;
+}
+
+void NFAStatee::setAcceptable(string token, bool state) {
+
+    this->token = token;
+    this->acceptableState = state;
 }

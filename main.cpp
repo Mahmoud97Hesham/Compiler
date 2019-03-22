@@ -4,6 +4,8 @@
 #include "NFAStatee.h"
 #include "ConversionToDFA.h"
 #include "MinimizeDFA.h"
+#include "NfaAlgorithm.h"
+
 using namespace std;
 
 int main() {
@@ -72,5 +74,26 @@ int main() {
 //   b.push_back(2);
 //
 //   cout << l[b] <<endl;
-    return 0;
+
+
+
+/*
+NfaAlgorithm testNfa;
+
+testNfa.Algorithm("p1","aa+aa*(ab|ab)*|ac");
+testNfa.Algorithm("p1","aa+da*(ab|db)*|ac");
+
+vector<string> tttt = testNfa.get_All_inputs();
+int size = testNfa.get_All_inputs().size();
+  for (int  i = 0;  i <size ; ++ i) {
+
+
+    cout << tttt.back()<<endl;
+
+    tttt.pop_back();
+  }
+
+*/
+
+  return 0;
 }
