@@ -24,15 +24,19 @@ vector<DFAState> MinimizeDFA::minimize() {
             vector<int> currentStateTransitions;
             for (int j = 0; j < input.size(); j++) {
                 currentStateTransitions.push_back(currentDFA.getTransition(input.at(j)));
-                cout << currentDFA.getTransition(input.at(j)) << " ";
+
             }
-            cout << endl;
             if (allInputsTransitions.find(currentStateTransitions) == allInputsTransitions.end()) {
                 allInputsTransitions[currentStateTransitions] = currentDFA.getID();
 
             } else {
-                checkDuplicates = true;
-                duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
+                bool isFirstStateAcceptable = currentDFA.isAcceptable();
+                DFAState alternativeState = completeDFAMap.at(allInputsTransitions[currentStateTransitions]);
+                bool isSecondStateAcceptable = alternativeState.isAcceptable();
+                if(isFirstStateAcceptable == isSecondStateAcceptable) {
+                    checkDuplicates = true;
+                    duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
+                }
             }
             minimizedDFAMap.pop();
             minimizedDFAMap.push(currentDFA);
