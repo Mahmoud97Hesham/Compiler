@@ -16,7 +16,9 @@ void DFAState::setAcceptable() {
 bool DFAState::isAcceptable() {
     return acceptableState;
 }
-
+int DFAState::getID(){
+    return  id;
+}
 void DFAState::addTransition(int newState, string input) {
     inputMap[input] = newState;
 }

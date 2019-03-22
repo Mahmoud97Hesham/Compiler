@@ -21,6 +21,7 @@ public:
     bool isAcceptable();
     vector<int> getNFAEquivalent();
     void addTransition(int newState,string input);
+    int getID();
     int getTransition(string input);
 };
 
