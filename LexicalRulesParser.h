@@ -15,8 +15,9 @@ using namespace std;
 
 
 class LexicalRulesParser {
-    vector<string> Allkeywords;
-    vector<string> Allpunctuations;
+    vector<string> allKeywords;
+    vector<string> allPunctuations;
+    vector<vector<string>> allRegularDefinitions;
 
 public:
     void readLexicalRules(string fileName);
@@ -26,6 +27,10 @@ public:
     vector<string> split(string stringToSplit, char delimiter);
 
     void handlePunctuations(string punctuations);
+
+    void handleRegularDefinition(string regularDefinition);
+
+    string handleFromToChar(string fromToString);
 };
 
 #endif //LEXICALANALYZER_LEXICALRULESPARSER_H
