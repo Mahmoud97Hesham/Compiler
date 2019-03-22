@@ -13,6 +13,7 @@ public:
     MinimizeDFA(vector<DFAState> dfaMap,vector<string> inputs);
     vector<DFAState> minimize();
     void updateDFA();
+    void printMinimizedDFATable();
 };
 
 

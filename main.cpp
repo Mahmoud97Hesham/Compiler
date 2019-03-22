@@ -57,9 +57,10 @@ int main() {
     //vector<int> result = convert.getInputTransitions(test,"1");
 
     //vector<int> result = temp1.getEpsilonEquivalent();
-    for(int i=0;i<o.size();i++){
-        cout<< o.at(i) << endl;
-    }
+//    for(int i=0;i<o.size();i++){
+//        cout<< o.at(i) << endl;
+//    }
+    minimize.printMinimizedDFATable();
 //   map<vector<int> , int > l ;
 //   vector<int> a;
 //   a.push_back(1);
