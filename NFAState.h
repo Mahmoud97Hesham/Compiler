@@ -1,31 +1,30 @@
 //
-// Created by Geek on 3/17/2019.
+// Created by Geek on 3/19/2019.
 //
 
-#ifndef LEXICALANALYZER_NFASTATE_H
-#define LEXICALANALYZER_NFASTATE_H
-
+#ifndef LEXICALANALYZER_NFASTATEE_H
+#define LEXICALANALYZER_NFASTATEE_H
 #include <vector>
 #include <map>
 #include <string>
 
 using namespace std;
 
-class NFAState {
-    bool acceptableState = false;
-    map<NFAState,string> inputMap;
-private:
-    vector<NFAState> nextStates;
+
+class NFAStatee {
+    bool acceptableState = true;
+    map<string,vector<int>> inputMap;
+    int id;
+    string token;
 public:
-    void setAcceptable();
+    NFAStatee(int idValue);
+    void setAcceptable(string token , bool state);
     bool isAcceptable();
-    void addNextState(NFAState newState,string input);
-    vector<NFAState> getNextStates();
-    bool operator<(const NFAState& src)const
-    {
-        return false;
-    }
+    void addTransition(int newStateID,string input);
+    vector<int> getTransition(string input);
+    vector<int> getEpsilonEquivalent();
+    int getId();
 };
 
 
-#endif //LEXICALANALYZER_NFASTATE_H
+#endif //LEXICALANALYZER_NFASTATEE_H

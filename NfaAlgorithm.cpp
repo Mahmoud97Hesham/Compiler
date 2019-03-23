@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include "NfaAlgorithm.h"
-#include "NFAStatee.h"
+#include "NFAState.h"
 
 
 void NfaAlgorithm::Algorithm(string token,string regularExpression) {

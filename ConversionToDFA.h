@@ -5,7 +5,7 @@
 #ifndef LEXICALANALYZER_CONVERSIONTODFA_H
 #define LEXICALANALYZER_CONVERSIONTODFA_H
 
-#include "NFAStatee.h"
+#include "NFAState.h"
 #include "DFAState.h"
 #include <vector>
 

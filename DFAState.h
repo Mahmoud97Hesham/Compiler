@@ -7,7 +7,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "NFAStatee.h"
+#include "NFAState.h"
 using namespace std;
 class DFAState {
     int id;

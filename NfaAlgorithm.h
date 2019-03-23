@@ -5,7 +5,7 @@
 #ifndef LEXICALANALYZER_NFAALGORITHM_H
 #define LEXICALANALYZER_NFAALGORITHM_H
 
-#include "NFAStatee.h"
+#include "NFAState.h"
 
 class NfaAlgorithm {
 
