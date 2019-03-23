@@ -84,7 +84,7 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
             }
             else{
                 bool regularDefinitionFound = false;
-                for(int j = 0;j < allRegularDefinitions.size();j++){
+                for(int j = allRegularDefinitions.size() - 1;j <= 0;j--){
                     if(splitByOr[i].find(allRegularDefinitions[j][0]) != std::string::npos){
                         regularDefinitionLogic += allRegularDefinitions[j][1];
                         size_t pos = splitByOr[i].find(allRegularDefinitions[j][1]);
@@ -107,7 +107,7 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
                     regularDefinitionLogic += splitByOr[i];
                 }
             }
-            if(i != splitByOr.size() - 1){
+            if(i != 0){
                 regularDefinitionLogic += "|";
             }
         }
@@ -117,7 +117,7 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
     }
     else{
         bool regularDefinitionFound = false;
-        for(int j = 0;j < allRegularDefinitions.size();j++){
+        for(int j = allRegularDefinitions.size() - 1;j <= 0;j--){
             if(splitRegularDefinitionName[1].find(allRegularDefinitions[j][0]) != std::string::npos){
                 regularDefinitionLogic += allRegularDefinitions[j][1];
                 size_t pos = splitRegularDefinitionName[1].find(allRegularDefinitions[j][1]);
@@ -149,14 +149,14 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
     regularExpression.erase(remove(regularExpression.begin(), regularExpression.end(), ' '), regularExpression.end());
     vector<string> splitRegularExpressionName = split(regularExpression,':');
     singleRegularExpression.push_back(splitRegularExpressionName[0]);
-    for(int i = 0;i < allRegularDefinitions.size();i++){
+    for(int i = allRegularDefinitions.size() - 1;i <= 0;i--){
         size_t start_pos = 0;
         while((start_pos = splitRegularExpressionName[1].find(allRegularDefinitions[i][0], start_pos)) != std::string::npos) {
             splitRegularExpressionName[1].replace(start_pos, allRegularDefinitions[i][0].length(), allRegularDefinitions[i][1]);
             start_pos += allRegularDefinitions[i][1].length();
         }
     }
-    for(int i = 0;i < allRegularExpressions.size();i++){
+    for(int i = allRegularExpressions.size() - 1;i <= 0;i--){
         size_t start_pos = 0;
         while((start_pos = splitRegularExpressionName[1].find(allRegularExpressions[i][0], start_pos)) != std::string::npos) {
             splitRegularExpressionName[1].replace(start_pos, allRegularExpressions[i][0].length(), allRegularExpressions[i][1]);
