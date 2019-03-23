@@ -3,6 +3,9 @@
 //
 
 #include "LexicalRulesParser.h"
+#include "NfaAlgorithm.h"
+
+NfaAlgorithm nfaAlg;
 
 
 vector<string> LexicalRulesParser::split(string stringToSplit,char delimiter){
@@ -161,6 +164,7 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
         }
     }
     singleRegularExpression.push_back(splitRegularExpressionName[1]);
+    nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
     allRegularExpressions.push_back(singleRegularExpression);
 }
 
