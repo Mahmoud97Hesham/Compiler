@@ -5,11 +5,12 @@
 #include "ConversionToDFA.h"
 #include "MinimizeDFA.h"
 #include "NfaAlgorithm.h"
+#include "LexicalRulesParser.h"
 
 using namespace std;
 
 int main() {
-    NFAStatee temp1(0);
+    /*NFAStatee temp1(0);
     NFAStatee temp2(1);
     NFAStatee temp3(2);
     NFAStatee temp4(3);
@@ -94,6 +95,10 @@ int size = testNfa.get_All_inputs().size();
   }
 
 */
+
+
+  LexicalRulesParser lexicalRules;
+  lexicalRules.readLexicalRules("LexicalRules");
 
   return 0;
 }
