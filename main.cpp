@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include "NFAStatee.h"
+#include "NFAState.h"
 #include "ConversionToDFA.h"
 #include "MinimizeDFA.h"
 #include "NfaAlgorithm.h"

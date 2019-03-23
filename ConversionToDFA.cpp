@@ -7,6 +7,8 @@
 #include <bits/stdc++.h>
 #include <queue>
 
+
+
 ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector) {
     startState = state;
     nfaMap = std::move(nfa);
