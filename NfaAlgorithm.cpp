@@ -13,7 +13,6 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
     int parenthesisCounter = 0;
     string epsilon = "epsilon";
     if(NfaStates.size()==0){
-    stateIdCounter ++;
     NFAStatee StartingState(0);
     StartingState.setAcceptable(token, true);
     NfaStates.push_back(StartingState);
