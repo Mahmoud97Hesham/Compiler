@@ -8,11 +8,8 @@
 using namespace std;
 
 class LexicalAnaLyzerGenerator {
-  LexicalRulesParser lsp;
   vector<DFAState> minimizedDFA;
-  bool isLastPunctuation;
 public:
-  LexicalAnaLyzerGenerator(LexicalRulesParser, vector<DFAState>);
-  void generateLexicalOutput(string);
-  bool isPunctuation(string);
+  LexicalAnaLyzerGenerator(vector<DFAState>);
+  vector<string> generateLexicalOutput(string);
 };
