@@ -78,14 +78,16 @@ int main() {
 
 
 
+
 /*
 NfaAlgorithm testNfa;
 
-testNfa.Algorithm("p1","aa+aa*(ab|ab)*|ac");
-testNfa.Algorithm("p1","aa+da*(ab|db)*|ac");
+testNfa.Algorithm("p1","b(a|s|D|F)*");
+testNfa.Algorithm("p1","ba+da*(ab|db)*|ac");
 
 vector<string> tttt = testNfa.get_All_inputs();
-int size = testNfa.get_All_inputs().size();
+  vector<NFAStatee> states = testNfa.getNfaStates();
+  int size = testNfa.get_All_inputs().size();
   for (int  i = 0;  i <size ; ++ i) {
 
 
@@ -93,8 +95,9 @@ int size = testNfa.get_All_inputs().size();
 
     tttt.pop_back();
   }
-
 */
+
+
 
   return 0;
 }

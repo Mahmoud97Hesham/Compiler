@@ -10,7 +10,7 @@
 class NfaAlgorithm {
 
     vector<NFAStatee> NfaStates;
-    vector <NFAStatee>StartStateTrack;
+    vector <long int>StartStateTrack;
     vector <string> All_inputs;
 
 private:
@@ -21,7 +21,7 @@ public:
     void Algorithm(string token,string regularExpression);
     vector <string> get_All_inputs();
    // NFAStatee getStarState();
-
+    vector<NFAStatee> getNfaStates();
 
 };
 

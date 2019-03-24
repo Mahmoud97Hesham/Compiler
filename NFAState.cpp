@@ -27,6 +27,7 @@ void NFAStatee::addTransition(int newStateID,string input){
     inputMap[input] = inputStatesIDs;
 
     cout <<this->getId()<<" "<< newStateID <<" "<<input<<endl ;
+    cout << inputMap[input].size()<<endl ;
 }
 
 vector<int> NFAStatee::getTransition(string input){
