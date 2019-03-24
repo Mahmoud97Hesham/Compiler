@@ -17,7 +17,7 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
     StartingState.setAcceptable(token, true);
     NfaStates.push_back(StartingState);
     //this->starState=StartingState;
-    StartStateTrack.push_back(StartingState);}
+    StartStateTrack.push_back(0);}
 
     vector<NFAStatee> parenthesisEndStates;
     for (int i = 0; i < regularExpression.length(); i++) {
@@ -29,14 +29,21 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
             NFAStatee end_this_Parenthes(stateIdCounter);
             parenthesisEndStates.push_back(end_this_Parenthes);
 
-            StartStateTrack.push_back(NfaStates.back());
+            int index = NfaStates.size()-1;
+            StartStateTrack.push_back(index);
             stateIdCounter++;
             NFAStatee dummyState(stateIdCounter);
             dummyState.setAcceptable(token, true);
-            NfaStates.back().addTransition(stateIdCounter,epsilon);
-            NfaStates.back().setAcceptable(token, false);
+            if(i==0){
+                NfaStates.at(0).addTransition(stateIdCounter, epsilon);
+
+            } else {
+                NfaStates.back().addTransition(stateIdCounter, epsilon);
+                NfaStates.back().setAcceptable(token, false);
+            }
             NfaStates.push_back(dummyState);
-            StartStateTrack.push_back(dummyState);
+            index = NfaStates.size()-1;
+            StartStateTrack.push_back(index);
 
         } else if (regularExpression[i] == ')') {
 
@@ -58,16 +65,16 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 if (i + 1 < regularExpression.length() && regularExpression[i + 1] == '*') {
 
                     i++;
-                    NfaStates.back().addTransition(StartStateTrack.back().getId(), epsilon);
+                    NfaStates.back().addTransition(NfaStates.at(StartStateTrack.back()).getId(), epsilon);
                     NfaStates.back().setAcceptable(token, false);
                     StartStateTrack.pop_back();
-                    StartStateTrack.back().addTransition(stateIdCounter, epsilon);
-                    StartStateTrack.back().setAcceptable(token, false);
+                    NfaStates.at(StartStateTrack.back()).addTransition(stateIdCounter, epsilon);
+                    NfaStates.at(StartStateTrack.back()).setAcceptable(token, false);
                     StartStateTrack.pop_back();
 
                 } else if (i + 1 < regularExpression.length() && regularExpression[i + 1] == '+') {
 
-                    NfaStates.back().addTransition(StartStateTrack.back().getId(), epsilon);
+                    NfaStates.back().addTransition(NfaStates.at(StartStateTrack.back()).getId(), epsilon);
                     NfaStates.back().setAcceptable(token, false);
                     StartStateTrack.pop_back();
                     StartStateTrack.pop_back();
@@ -88,8 +95,8 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
             stateIdCounter++;
             NFAStatee dummyState(stateIdCounter);
             dummyState.setAcceptable(token, true);
-            StartStateTrack.back().addTransition(stateIdCounter, epsilon);
-            StartStateTrack.back().setAcceptable(token, false);
+            NfaStates.at(StartStateTrack.back()).addTransition(stateIdCounter, epsilon);
+            NfaStates.at(StartStateTrack.back()).setAcceptable(token, false);
             NfaStates.push_back(dummyState);
 
         } else if (regularExpression[i] == '\\') {
@@ -106,9 +113,14 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 All_inputs.push_back(temp);
             }
 
+            if(i==0){
+                NfaStates.at(0).addTransition(stateIdCounter, temp);
+
+            } else{
+
 
             NfaStates.back().addTransition(stateIdCounter, temp);
-            NfaStates.back().setAcceptable(token, false);
+            NfaStates.back().setAcceptable(token, false);}
             NfaStates.push_back(dummyState);
 
         }
@@ -132,8 +144,12 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                     All_inputs.push_back(temp);
                 }
 
+                if(i==0){
+                    NfaStates.at(0).addTransition(stateIdCounter, temp);
+
+                } else{
                 NfaStates.back().addTransition(stateIdCounter, temp);
-                NfaStates.back().setAcceptable(token, false);
+                NfaStates.back().setAcceptable(token, false);}
                 NfaStates.push_back(dummyState);
 
             } else if (i+1<regularExpression.length() && regularExpression[i + 1] == '+') {
@@ -147,9 +163,12 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 if(!(std::find(All_inputs.begin(), All_inputs.end(), temp) != All_inputs.end())) {
                     All_inputs.push_back(temp);
                 }
+                if(i==0){
+                    NfaStates.at(0).addTransition(stateIdCounter, temp);
 
+                } else{
                 NfaStates.back().addTransition(stateIdCounter, temp);
-                NfaStates.back().setAcceptable(token, false);
+                NfaStates.back().setAcceptable(token, false);}
                 NfaStates.push_back(dummyState);
                 NfaStates.back().addTransition(NfaStates.back().getId(), temp);
                 NfaStates.back().setAcceptable(token, false);
@@ -165,9 +184,12 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 if(!(std::find(All_inputs.begin(), All_inputs.end(), temp) != All_inputs.end())) {
                     All_inputs.push_back(temp);
                 }
+                if(i==0){
+                    NfaStates.at(0).addTransition(stateIdCounter, epsilon);
 
+                } else{
                 NfaStates.back().addTransition(stateIdCounter,epsilon);
-                NfaStates.back().setAcceptable(token, false);
+                NfaStates.back().setAcceptable(token, false);}
                 dummyState.addTransition(stateIdCounter,temp);
                 dummyState.setAcceptable(token, false);
 
@@ -195,6 +217,10 @@ vector <string> NfaAlgorithm :: get_All_inputs(){
 
     return this->All_inputs;
 
+}
+
+vector<NFAStatee> NfaAlgorithm::getNfaStates() {
+    return this->NfaStates;
 };
 
 /*
