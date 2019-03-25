@@ -9,6 +9,7 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
   string line;
   int nextState = 1;
   vector<string> result;
+  string token = "";
   while(getline(file,line)) {
     int i = 0;
     char c = line[i];
@@ -16,20 +17,29 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
     
     while(c != 0) {
       if(c == ' ' || c == '\t') {
-        string token;
+        token += " >> " + minimizedDFA[nextState].getToken();
         result.push_back(token);
         nextState = 1;
+        token = "";
       } else {
+        int oldState = nextState;
         nextState = minimizedDFA[nextState].nextState(cInString);
         if(nextState == 0) {
-          string token;
+          token += " >> " + minimizedDFA[oldState].getToken();
           result.push_back(token);
-          nextState = 1;
+          nextState = minimizedDFA[1].nextState(cInString);
+          token = c;
+        } else {
+          token += c;
         }
       }
       c = line[++i];
       cInString = string(1, c);
     }
+    token += " >> " + minimizedDFA[nextState].getToken();
+    result.push_back(token);
+    nextState = 1;
+    token = "";
   }
   return result;
 }
