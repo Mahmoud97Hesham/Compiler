@@ -126,5 +126,7 @@ vector<string> tttt = testNfa.get_All_inputs();
     cout << "ACCEPT " << minimized.at(2).getToken() << endl;
 
 
+   LexicalRulesParser lexical;
+   lexical.readLexicalRules("LexicalRules");
   return 0;
 }
