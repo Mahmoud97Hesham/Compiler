@@ -71,7 +71,7 @@ string LexicalRulesParser::handleFromToChar(string fromToString) {
 }
 
 bool isLetter(char c) {
-    if((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) return true;
+    if((c >= 97 && c <= 122)) return true;
     return false;
 }
 
