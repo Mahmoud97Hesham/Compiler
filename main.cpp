@@ -6,6 +6,7 @@
 #include "MinimizeDFA.h"
 #include "NfaAlgorithm.h"
 #include "LexicalRulesParser.h"
+#include "LexicalAnaLyzerGenerator.h"
 #include <unordered_set>
 #include <iterator>
 
@@ -85,7 +86,7 @@ int main() {
 NfaAlgorithm testNfa;
 
 testNfa.Algorithm("p1","b(a|s|D|F)*");
-//testNfa.Algorithm("p2","ba+da*(ab|db)*|ac");
+testNfa.Algorithm("p2","ba+da*(ab|db)*|ac");
 
 vector<string> tttt = testNfa.get_All_inputs();
   vector<NFAStatee> states = testNfa.getNfaStates();
@@ -122,9 +123,17 @@ vector<string> tttt = testNfa.get_All_inputs();
 //    vector<int> o = l.getNFAEquivalent();
     MinimizeDFA minimize(v,testNfa.get_All_inputs());
     vector<DFAState> minimized = minimize.minimize();
-    minimize.printMinimizedDFATable();
-    cout << "ACCEPT " << minimized.at(2).getToken() << endl;
+//    minimize.printMinimizedDFATable();
+//    cout << "ACCEPT " << minimized.at(2).getToken() << endl;
 
+    LexicalAnaLyzerGenerator lag(minimized);
+    cout << endl << endl;
+    vector<string> test = lag.generateLexicalOutput("test.txt");
+    cout << test.size() << endl;
+    ofstream outputFile("output.txt");
+    for(int i = 0; i < test.size(); ++i) {
+        outputFile << test[i] << endl;
+    }
 
   return 0;
 }

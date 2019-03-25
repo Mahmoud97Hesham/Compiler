@@ -36,10 +36,12 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
       c = line[++i];
       cInString = string(1, c);
     }
-    token += " >> " + minimizedDFA[nextState].getToken();
-    result.push_back(token);
-    nextState = 1;
-    token = "";
+    if(minimizedDFA[nextState].isAcceptable()) {
+      token += " >> " + minimizedDFA[nextState].getToken();
+      result.push_back(token);
+      nextState = 1;
+      token = "";
+    }
   }
   return result;
 }
