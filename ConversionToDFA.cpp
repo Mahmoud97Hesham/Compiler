@@ -9,12 +9,15 @@
 
 
 
-ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector) {
+ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector,unordered_set<int>  acceptingStates) {
     startState = state;
     nfaMap = std::move(nfa);
     inputs = std::move(inputsVector);
+    accept = std::move(acceptingStates);
 }
 
+bool acceptState = false;
+string token = "";
 vector<DFAState> ConversionToDFA::convertToDFA() {
     vector<int> startStates = getStartStates();
     map<vector<int>, int> checkDuplicates;
@@ -34,12 +37,17 @@ vector<DFAState> ConversionToDFA::convertToDFA() {
         dfaStates.pop();
         vector<int> equivalentNFA = state.getNFAEquivalent();
         for (unsigned int i = 0; i < inputs.size(); i++) {
+            acceptState = false;
             vector<int> nextStates = getInputTransitions(equivalentNFA, inputs.at(i));
             vector<int> finalNextStates = addNestedEquivalentStates(nextStates);
             if (!finalNextStates.empty()) {
                 sort(finalNextStates.begin(), finalNextStates.end());
                 if (checkDuplicates.find(finalNextStates) == checkDuplicates.end()) {
                     DFAState newState(id, finalNextStates);
+                    if(acceptState){
+                        newState.setAcceptable();
+                        newState.setToken(token);
+                    }
                     state.addTransition(id, inputs.at(i));
                     checkDuplicates[finalNextStates] = id;
                     dfaStates.push(newState);
@@ -88,11 +96,17 @@ vector<int> ConversionToDFA::addNestedEquivalentStates(vector<int> states) {
 
         if (checkDuplicates.find(states.at(i)) == checkDuplicates.end()) {
             checkDuplicates.insert(states.at(i));
+
             statesQueue.push(states.at(i));
+
         }
     }
     while (!statesQueue.empty()) {
         int stateID = statesQueue.front();
+        if (accept.find(stateID) != accept.end()) {
+            acceptState = true;
+            token = nfaMap.at(stateID).getToken();
+        }
         nfaEpsilonEquivalent.push_back(stateID);
         statesQueue.pop();
         NFAStatee currentState = nfaMap.at(stateID);

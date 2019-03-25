@@ -8,6 +8,7 @@
 #include "NFAState.h"
 #include "DFAState.h"
 #include <vector>
+#include <unordered_set>
 
 class ConversionToDFA {
     int startState;
@@ -16,11 +17,11 @@ class ConversionToDFA {
     /* table of dfa states and their IDS */
     vector<DFAState> dfaMap;
     vector<string> inputs;
-
+    unordered_set<int> accept ;
 
 public:
     /* Constructor of the class takes Start state ID of NFA and the Table of NFA States */
-    ConversionToDFA(int state,vector<NFAStatee> nfa,vector<string> inputsVector);
+    ConversionToDFA(int state,vector<NFAStatee> nfa,vector<string> inputsVector,unordered_set<int> acceptingStates);
     /* return the start state of the new dfa  */
     vector<DFAState> convertToDFA();
     vector<int> addNestedEquivalentStates(vector<int> states);

@@ -6,7 +6,7 @@
 #define LEXICALANALYZER_NFAALGORITHM_H
 
 #include "NFAState.h"
-
+#include <unordered_set>
 class NfaAlgorithm {
 
     vector<NFAStatee> NfaStates;
@@ -15,6 +15,14 @@ class NfaAlgorithm {
 
 private:
     int stateIdCounter=0;
+    unordered_set<int> acceptedStates;
+public:
+    unordered_set<int> getAcceptedStates();
+    void setAcceptedStates(int order);
+
+public:
+
+
 public:
 
 
@@ -22,7 +30,6 @@ public:
     vector <string> get_All_inputs();
    // NFAStatee getStarState();
     vector<NFAStatee> getNfaStates();
-
 };
 
 

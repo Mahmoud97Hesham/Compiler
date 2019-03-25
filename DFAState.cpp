@@ -8,6 +8,12 @@ DFAState::DFAState(int idValue, vector<int> nfaVector) {
     id = idValue;
     nfaEquivalent = nfaVector;
 }
+void DFAState::setToken(string tokenName){
+    token = tokenName;
+}
+string DFAState::getToken(){
+    return token;
+}
 
 void DFAState::setAcceptable() {
     acceptableState = true;

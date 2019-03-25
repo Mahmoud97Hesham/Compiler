@@ -6,11 +6,13 @@
 #include "MinimizeDFA.h"
 #include "NfaAlgorithm.h"
 #include "LexicalRulesParser.h"
+#include <unordered_set>
+#include <iterator>
 
 using namespace std;
 
 int main() {
-    NFAStatee temp1(0);
+   /* NFAStatee temp1(0);
     NFAStatee temp2(1);
     NFAStatee temp3(2);
     NFAStatee temp4(3);
@@ -75,15 +77,15 @@ int main() {
 //   b.push_back(2);
 //
 //   cout << l[b] <<endl;
+*/
 
 
 
 
-/*
 NfaAlgorithm testNfa;
 
 testNfa.Algorithm("p1","b(a|s|D|F)*");
-testNfa.Algorithm("p1","ba+da*(ab|db)*|ac");
+//testNfa.Algorithm("p2","ba+da*(ab|db)*|ac");
 
 vector<string> tttt = testNfa.get_All_inputs();
   vector<NFAStatee> states = testNfa.getNfaStates();
@@ -95,8 +97,33 @@ vector<string> tttt = testNfa.get_All_inputs();
 
     tttt.pop_back();
   }
-*/
 
+  unordered_set<int> s =testNfa.getAcceptedStates();
+
+    std::copy(s.begin(),
+              s.end(),
+              std::ostream_iterator<int>(std::cout, " "));
+
+    vector<NFAStatee> temp;
+    for(int i = 0 ; i < states.size();i++){
+        NFAStatee dummy(-1);
+        temp.push_back(dummy);
+    }
+    for(int i = 0 ; i < temp.size();i++){
+        temp[states.at(i).getId()] = states.at(i);
+    }
+    unordered_set<int> accept = testNfa.getAcceptedStates();
+    ConversionToDFA convert(0,temp,testNfa.get_All_inputs(),accept);
+    //vector<int> test;
+    //test.push_back(3);
+    vector<DFAState> v = convert.convertToDFA();
+    //cout<< v.size() << endl;
+//    DFAState l = v.at(1);
+//    vector<int> o = l.getNFAEquivalent();
+    MinimizeDFA minimize(v,testNfa.get_All_inputs());
+    vector<DFAState> minimized = minimize.minimize();
+    minimize.printMinimizedDFATable();
+    cout << "ACCEPT " << minimized.at(2).getToken() << endl;
 
 
   return 0;

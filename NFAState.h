@@ -24,6 +24,7 @@ public:
     vector<int> getTransition(string input);
     vector<int> getEpsilonEquivalent();
     int getId();
+    string getToken();
 };
 
 

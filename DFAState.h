@@ -14,6 +14,7 @@ class DFAState {
     bool acceptableState = false;
     map<string,int> inputMap;
     vector<int> nfaEquivalent;
+    string token = "";
 public:
     DFAState(int idValue,vector<int> nfaVector);
     int nextState(string input);
@@ -23,6 +24,9 @@ public:
     void addTransition(int newState,string input);
     int getID();
     int getTransition(string input);
+    string getToken();
+    void setToken(string tokenName);
+
 };
 
 
