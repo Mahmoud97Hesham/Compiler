@@ -6,11 +6,13 @@
 #include "NfaAlgorithm.h"
 #include "NFAState.h"
 #include <unordered_set>
+#include <iostream>
 
 
 void NfaAlgorithm::Algorithm(string token,string regularExpression) {
 
 
+    cout<< token<<" "<<regularExpression<<endl;
     int parenthesisCounter = 0;
     string epsilon = "epsilon";
     if(NfaStates.size()==0){
@@ -25,6 +27,8 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
     for (int i = 0; i < regularExpression.length(); i++) {
 
         if (regularExpression[i] == '(') {
+
+
             parenthesisCounter++;
 
             stateIdCounter++;
@@ -47,15 +51,14 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
             }
             NfaStates.push_back(dummyState);
             acceptedStates.insert(NfaStates.back().getId());
-            index = NfaStates.size()-1;
+             index = NfaStates.size()-1;
             StartStateTrack.push_back(index);
-
         } else if (regularExpression[i] == ')') {
 
             if (parenthesisCounter > 0) {
                 parenthesisCounter--;
 
-
+              //  cout<<NfaStates.at(StartStateTrack.back()).getId()<<endl;
                 NfaStates.back().addTransition(parenthesisEndStates.back().getId(),epsilon);
                 NfaStates.back().setAcceptable(token, false);
                 acceptedStates.erase(NfaStates.back().getId());
@@ -71,6 +74,7 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 NfaStates.back().setAcceptable(token, false);
                 acceptedStates.erase(NfaStates.back().getId());
                 if (i + 1 < regularExpression.length() && regularExpression[i + 1] == '*') {
+
 
                     i++;
                     NfaStates.back().addTransition(NfaStates.at(StartStateTrack.back()).getId(), epsilon);
@@ -90,6 +94,10 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                     acceptedStates.erase(NfaStates.back().getId());
                     StartStateTrack.pop_back();
                     StartStateTrack.pop_back();
+                } else{
+                    StartStateTrack.pop_back();
+                    StartStateTrack.pop_back();
+
                 }
                 NfaStates.push_back(dummyState);
                 acceptedStates.insert(NfaStates.back().getId());
@@ -103,6 +111,7 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
 
             if(parenthesisCounter>0){
                 NfaStates.back().addTransition(parenthesisEndStates.back().getId(),epsilon);
+              //  cout << parenthesisEndStates.back().getId()<<" "<<endl;
                 NfaStates.back().setAcceptable(token, false);
                 acceptedStates.erase(NfaStates.back().getId());
             }
@@ -129,16 +138,30 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
             }
 
             if(i==0){
-                NfaStates.at(0).addTransition(stateIdCounter, temp);
-                acceptedStates.erase(NfaStates.at(0).getId());
 
+
+                if(temp=="L"){
+
+                    NfaStates.at(0).addTransition(stateIdCounter, epsilon);
+                    acceptedStates.erase(NfaStates.at(0).getId());
+                } else {
+                    NfaStates.at(0).addTransition(stateIdCounter, temp);
+                    acceptedStates.erase(NfaStates.at(0).getId());
+                }
 
 
             } else{
 
 
+                if(temp=="L"){
+                    NfaStates.back().addTransition(stateIdCounter, epsilon);
+                    NfaStates.back().setAcceptable(token, false);
+
+                } else{
             NfaStates.back().addTransition(stateIdCounter, temp);
             NfaStates.back().setAcceptable(token, false);
+                }
+
                 acceptedStates.erase(NfaStates.back().getId());
             }
             NfaStates.push_back(dummyState);

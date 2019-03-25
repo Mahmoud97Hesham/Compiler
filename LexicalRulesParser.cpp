@@ -4,6 +4,11 @@
 
 #include "LexicalRulesParser.h"
 #include "NfaAlgorithm.h"
+#include "DFAState.h"
+#include "ConversionToDFA.h"
+#include "LexicalAnaLyzerGenerator.h"
+#include "MinimizeDFA.h"
+#include "iostream"
 
 NfaAlgorithm nfaAlg;
 
@@ -198,7 +203,8 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
         }
     }
     singleRegularExpression.push_back(splitRegularExpressionName[1]);
-    //nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
+    nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
+    //cout<<singleRegularExpression[1];
     allRegularExpressions.push_back(singleRegularExpression);
 }
 
@@ -224,6 +230,32 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         }
         errorInLineNumber++;
     }
+    vector<NFAStatee> nfa = nfaAlg.getNfaStates();
+    vector<NFAStatee> temp;
+    for(int i = 0 ; i < nfa.size();i++){
+        NFAStatee dummy(-1);
+        temp.push_back(dummy);
+    }
+    for(int i = 0 ; i < temp.size();i++){
+        temp[nfa.at(i).getId()] = nfa.at(i);
+    }
+
+    unordered_set<int> accept = nfaAlg.getAcceptedStates();
+    ConversionToDFA convert(0,temp,nfaAlg.get_All_inputs(),accept);
+    vector<DFAState> v = convert.convertToDFA();
+//    //cout<< v.size() << endl;
+    MinimizeDFA minimize(v,nfaAlg.get_All_inputs());
+    vector<DFAState> minimized = minimize.minimize();
+    minimize.printMinimizedDFATable();
+    LexicalAnaLyzerGenerator lag(minimized);
+    cout << endl << endl;
+    vector<string> test = lag.generateLexicalOutput("test.txt");
+    cout << test.size() << endl;
+    ofstream outputFile("output.txt");
+    for(int i = 0; i < test.size(); ++i) {
+        outputFile << test[i] << endl;
+    }
+
 }
 
 
