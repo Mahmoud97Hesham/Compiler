@@ -135,5 +135,7 @@ vector<string> tttt = testNfa.get_All_inputs();
         outputFile << test[i] << endl;
     }
 
+   LexicalRulesParser lexical;
+   lexical.readLexicalRules("LexicalRules");
   return 0;
 }

@@ -70,6 +70,11 @@ string LexicalRulesParser::handleFromToChar(string fromToString) {
     return fromToLogic;
 }
 
+bool isLetter(char c) {
+    if((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) return true;
+    return false;
+}
+
 void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
     vector<string> singleRegularDefinition;
     regularDefinition.erase(remove(regularDefinition.begin(), regularDefinition.end(), ' '), regularDefinition.end());
@@ -118,7 +123,18 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
     else{
         bool regularDefinitionFound = false;
         for(int j = allRegularDefinitions.size() - 1;j >= 0;j--){
-            if(splitRegularDefinitionName[1].find(allRegularDefinitions[j][0]) != std::string::npos){
+            size_t start_pos = 0;
+            if((start_pos = splitRegularDefinitionName[1].find(allRegularDefinitions[j][0],start_pos)) != std::string::npos ){
+                if(start_pos != 0){
+                    if(isLetter(splitRegularDefinitionName[1].at(start_pos - 1)) || isLetter(splitRegularDefinitionName[1].at(start_pos + allRegularDefinitions[j][0].length()))){
+                        continue;
+                    }
+                }
+                else{
+                    if(isLetter(splitRegularDefinitionName[1].at(start_pos + allRegularDefinitions[j][0].length()))){
+                        continue;
+                    }
+                }
                 regularDefinitionLogic += allRegularDefinitions[j][1];
                 size_t pos = splitRegularDefinitionName[1].find(allRegularDefinitions[j][0]);
                 if (pos != std::string::npos)
@@ -130,9 +146,6 @@ void LexicalRulesParser::handleRegularDefinition(string regularDefinition) {
                 }
                 regularDefinitionFound = true;
                 break;
-            }
-            else{
-                continue;
             }
         }
         if(!regularDefinitionFound){
@@ -149,9 +162,20 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
     regularExpression.erase(remove(regularExpression.begin(), regularExpression.end(), ' '), regularExpression.end());
     vector<string> splitRegularExpressionName = split(regularExpression,':');
     singleRegularExpression.push_back(splitRegularExpressionName[0]);
+
     for(int i = allRegularDefinitions.size() - 1;i >= 0;i--){
         size_t start_pos = 0;
         while((start_pos = splitRegularExpressionName[1].find(allRegularDefinitions[i][0], start_pos)) != std::string::npos) {
+            if(start_pos != 0){
+                if(isLetter(splitRegularExpressionName[1].at(start_pos - 1)) || isLetter(splitRegularExpressionName[1].at(start_pos + allRegularDefinitions[i][0].length()))){
+                    break;
+                }
+            }
+            else{
+                if(isLetter(splitRegularExpressionName[1].at(start_pos + allRegularDefinitions[i][0].length()))){
+                    break;
+                }
+            }
             splitRegularExpressionName[1].replace(start_pos, allRegularDefinitions[i][0].length(), allRegularDefinitions[i][1]);
             start_pos += allRegularDefinitions[i][1].length();
         }
@@ -159,12 +183,22 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
     for(int i = allRegularExpressions.size() - 1;i >= 0;i--){
         size_t start_pos = 0;
         while((start_pos = splitRegularExpressionName[1].find(allRegularExpressions[i][0], start_pos)) != std::string::npos) {
+            if(start_pos != 0){
+                if(isLetter(splitRegularExpressionName[1].at(start_pos - 1)) || isLetter(splitRegularExpressionName[1].at(start_pos + allRegularExpressions[i][0].length()))){
+                    break;
+                }
+            }
+            else{
+                if(isLetter(splitRegularExpressionName[1].at(start_pos + allRegularExpressions[i][0].length()))){
+                    break;
+                }
+            }
             splitRegularExpressionName[1].replace(start_pos, allRegularExpressions[i][0].length(), allRegularExpressions[i][1]);
             start_pos += allRegularExpressions[i][1].length();
         }
     }
     singleRegularExpression.push_back(splitRegularExpressionName[1]);
-    nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
+    //nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
     allRegularExpressions.push_back(singleRegularExpression);
 }
 
@@ -191,4 +225,5 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         errorInLineNumber++;
     }
 }
+
 
