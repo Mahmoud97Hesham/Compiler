@@ -33,9 +33,14 @@ vector<DFAState> MinimizeDFA::minimize() {
                 bool isFirstStateAcceptable = currentDFA.isAcceptable();
                 DFAState alternativeState = completeDFAMap.at(allInputsTransitions[currentStateTransitions]);
                 bool isSecondStateAcceptable = alternativeState.isAcceptable();
+                cout << " ID " << currentDFA.getID() << " FIRST STATE BOOL " << isFirstStateAcceptable << endl;
+                cout << " ID " << alternativeState.getID()  << " SECOND STATE BOOL " << isSecondStateAcceptable << endl;
                 if (isFirstStateAcceptable == isSecondStateAcceptable) {
+
                     checkDuplicates = true;
                     duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
+                }else{
+                    allInputsTransitions[currentStateTransitions] = currentDFA.getID();
                 }
             }
             minimizedDFAMap.pop();
@@ -71,15 +76,16 @@ void MinimizeDFA::updateDFA() {
 }
 
 void MinimizeDFA::printMinimizedDFATable() {
+    cout << endl;
     for (int j = 0; j < input.size(); j++) {
-        cout << "\t" << input.at(j);
+        cout << " " << input.at(j);
     }
     cout << endl;
     for (int i = 0; i < completeDFAMap.size(); i++) {
         if (completeDFAMap[i].getID() != -1) {
-            cout << completeDFAMap[i].getID();
+            cout << completeDFAMap[i].getID() << "  ";
             for (int j = 0; j < input.size(); j++) {
-                cout << "\t" << completeDFAMap[i].getTransition(input.at(j));
+                cout << " " << completeDFAMap[i].getTransition(input.at(j));
             }
             cout << endl;
         }
