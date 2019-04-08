@@ -18,6 +18,7 @@ vector<DFAState> MinimizeDFA::minimize() {
     }
     do {
         map<vector<int>, int> allInputsTransitions;
+        map<vector<int>, int> allInputsTransitionsNotaccepted;
         checkDuplicates = false;
         for (int i = 0; i < minimizedDFAMap.size(); i++) {
             DFAState currentDFA = minimizedDFAMap.front();
@@ -26,22 +27,33 @@ vector<DFAState> MinimizeDFA::minimize() {
                 currentStateTransitions.push_back(currentDFA.getTransition(input.at(j)));
 
             }
-            if (allInputsTransitions.find(currentStateTransitions) == allInputsTransitions.end()) {
+            if (allInputsTransitions.find(currentStateTransitions) == allInputsTransitions.end() && (currentDFA.isAcceptable())) {
                 allInputsTransitions[currentStateTransitions] = currentDFA.getID();
+                cout << " ADD TO ACCEPTED MAP " << currentDFA.getID();
 
-            } else {
+            }else if(allInputsTransitionsNotaccepted.find(currentStateTransitions) == allInputsTransitionsNotaccepted.end() &&(!currentDFA.isAcceptable())){
+                allInputsTransitionsNotaccepted[currentStateTransitions] = currentDFA.getID();
+                cout << " ADD TO NOT ACCEPTED MAP " << currentDFA.getID();
+            }else {
                 bool isFirstStateAcceptable = currentDFA.isAcceptable();
-                DFAState alternativeState = completeDFAMap.at(allInputsTransitions[currentStateTransitions]);
-                bool isSecondStateAcceptable = alternativeState.isAcceptable();
+//                DFAState alternativeState = completeDFAMap.at(allInputsTransitions[currentStateTransitions]);
+//                bool isSecondStateAcceptable = alternativeState.isAcceptable();
                 cout << " ID " << currentDFA.getID() << " FIRST STATE BOOL " << isFirstStateAcceptable << endl;
-                cout << " ID " << alternativeState.getID()  << " SECOND STATE BOOL " << isSecondStateAcceptable << endl;
-                if (isFirstStateAcceptable == isSecondStateAcceptable) {
+//                cout << " ID " << alternativeState.getID()  << " SECOND STATE BOOL " << isSecondStateAcceptable << endl;
+                if (isFirstStateAcceptable) {
 
-                    checkDuplicates = true;
-                    duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
+                    DFAState alternativeState = completeDFAMap.at(allInputsTransitions[currentStateTransitions]);
+                    if(alternativeState.getToken() == currentDFA.getToken()){
+                        duplicatesMap[currentDFA.getID()] = allInputsTransitions[currentStateTransitions];
+                        checkDuplicates = true;
+                    }
+                    //cout << " ID " << allInputsTransitions[currentStateTransitions] << " ACCEPTED" << endl;
                 }else{
-                    allInputsTransitions[currentStateTransitions] = currentDFA.getID();
+                    duplicatesMap[currentDFA.getID()] = allInputsTransitionsNotaccepted[currentStateTransitions];
+                    checkDuplicates = true;
+                    //cout << " ID " << allInputsTransitions[currentStateTransitions] << " NOT ACCEPTED" << endl;
                 }
+
             }
             minimizedDFAMap.pop();
             minimizedDFAMap.push(currentDFA);

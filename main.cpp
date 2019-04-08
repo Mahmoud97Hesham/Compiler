@@ -93,7 +93,7 @@ int main() {
 NfaAlgorithm testNfa;
 
 //testNfa.Algorithm("letter","(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)((a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z))*");
-//testNfa.Algorithm("digit","(0|1|2|3|4|5|6|7|8|9)");
+//testNfa.Algorithm("digits","(0|1|2|3|4|5|6|7|8|9)+");
 //testNfa.Algorithm("p1","(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)((a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)|(0|1|2|3|4|5|6|7|8|9))*");
 //testNfa.Algorithm("p1","(a|b|q|e)((c|d|k|)|(0|1|2|3))*");
 
@@ -153,6 +153,21 @@ vector<string> tttt = testNfa.get_All_inputs();
     //cout<< v.size() << endl;
 //    DFAState l = v.at(1);
 //    vector<int> o = l.getNFAEquivalent();
+    vector<string> input = testNfa.get_All_inputs();
+    cout << endl;
+    for (int j = 0; j < input.size(); j++) {
+        cout << " " << input.at(j);
+    }
+    cout << endl;
+    for (int i = 0; i < v.size(); i++) {
+        if (v[i].getID() != -1) {
+            cout << v[i].getID() << "  ";
+            for (int j = 0; j < input.size(); j++) {
+                cout << " " << v[i].getTransition(input.at(j));
+            }
+            cout << endl;
+        }
+    }
     MinimizeDFA minimize(v,testNfa.get_All_inputs());
     vector<DFAState> minimized = minimize.minimize();
      minimize.printMinimizedDFATable();
