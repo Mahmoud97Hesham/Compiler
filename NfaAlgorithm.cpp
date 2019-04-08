@@ -12,7 +12,7 @@
 void NfaAlgorithm::Algorithm(string token,string regularExpression) {
 
 
-    cout<< token<<" "<<regularExpression<<endl;
+    cout<< token<<" "<<"&"<<regularExpression<<"&"<<endl;
     int parenthesisCounter = 0;
     string epsilon = "epsilon";
     if(NfaStates.size()==0){
@@ -137,7 +137,7 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
                 All_inputs.push_back(temp);
             }
 
-            if(i==0){
+            if(i==1){
 
 
                 if(temp=="L"){

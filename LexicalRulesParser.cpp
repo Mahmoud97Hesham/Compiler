@@ -204,7 +204,7 @@ void LexicalRulesParser::handleRegularExpressions(string regularExpression) {
     }
     singleRegularExpression.push_back(splitRegularExpressionName[1]);
     nfaAlg.Algorithm(singleRegularExpression[0],singleRegularExpression[1]);
-    //cout<<singleRegularExpression[1];
+   // cout<<singleRegularExpression[1]<<endl;
     allRegularExpressions.push_back(singleRegularExpression);
 }
 
@@ -240,6 +240,14 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         temp[nfa.at(i).getId()] = nfa.at(i);
     }
 
+    for(int i = 0; i < allKeywords.size(); i++){
+        nfaAlg.Algorithm(allKeywords[i],allKeywords[i]);
+    }
+
+    for(int i = 0; i < allPunctuations.size(); i++){
+        nfaAlg.Algorithm(allPunctuations[i],allPunctuations[i]);
+    }
+
     unordered_set<int> accept = nfaAlg.getAcceptedStates();
     ConversionToDFA convert(0,temp,nfaAlg.get_All_inputs(),accept);
     vector<DFAState> v = convert.convertToDFA();
@@ -248,9 +256,9 @@ void LexicalRulesParser::readLexicalRules(string fileName){
     vector<DFAState> minimized = minimize.minimize();
     minimize.printMinimizedDFATable();
     LexicalAnaLyzerGenerator lag(minimized);
-    cout << endl << endl;
+   // cout << endl << endl;
     vector<string> test = lag.generateLexicalOutput("test.txt");
-    cout << test.size() << endl;
+    //cout << test.size() << endl;
     ofstream outputFile("output.txt");
     for(int i = 0; i < test.size(); ++i) {
         outputFile << test[i] << endl;
