@@ -18,10 +18,11 @@ class ConversionToDFA {
     vector<DFAState> dfaMap;
     vector<string> inputs;
     unordered_set<int> accept ;
+    unordered_set<string> keywords;
 
 public:
     /* Constructor of the class takes Start state ID of NFA and the Table of NFA States */
-    ConversionToDFA(int state,vector<NFAStatee> nfa,vector<string> inputsVector,unordered_set<int> acceptingStates);
+    ConversionToDFA(int state,vector<NFAStatee> nfa,vector<string> inputsVector,unordered_set<int> acceptingStates,vector<string> allKeywords);
     /* return the start state of the new dfa  */
     vector<DFAState> convertToDFA();
     vector<int> addNestedEquivalentStates(vector<int> states);

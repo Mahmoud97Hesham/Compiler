@@ -243,6 +243,10 @@ void LexicalRulesParser::readLexicalRules(string fileName){
     for(int i = 0; i < allPunctuations.size(); i++){
         nfaAlg.Algorithm(allPunctuations[i],allPunctuations[i]);
     }*/
+    cout << "KEYWORDS " << endl;
+    for(int i = 0;i<allKeywords.size();i++){
+        cout << allKeywords[i] << endl;
+    }
     vector<NFAStatee> nfa = nfaAlg.getNfaStates();
     vector<NFAStatee> temp;
     for(int i = 0 ; i < nfa.size();i++){
@@ -253,9 +257,24 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         temp[nfa.at(i).getId()] = nfa.at(i);
     }
     unordered_set<int> accept = nfaAlg.getAcceptedStates();
-    ConversionToDFA convert(0,temp,nfaAlg.get_All_inputs(),accept);
+    ConversionToDFA convert(0,temp,nfaAlg.get_All_inputs(),accept,allKeywords);
     vector<DFAState> v = convert.convertToDFA();
 //    //cout<< v.size() << endl;
+    vector<string> input = nfaAlg.get_All_inputs();
+    cout << endl;
+    for (int j = 0; j < input.size(); j++) {
+        cout << " " << input.at(j);
+    }
+    cout << endl;
+    for (int i = 0; i < v.size(); i++) {
+        if (v[i].getID() != -1) {
+            cout << v[i].getID() << "  ";
+            for (int j = 0; j < input.size(); j++) {
+                cout << " " << v[i].getTransition(input.at(j));
+            }
+            cout << endl;
+        }
+    }
     MinimizeDFA minimize(v,nfaAlg.get_All_inputs());
     vector<DFAState> minimized = minimize.minimize();
     minimize.printMinimizedDFATable();

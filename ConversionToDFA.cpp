@@ -9,12 +9,16 @@
 
 
 
-ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector,unordered_set<int>  acceptingStates) {
+ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector,unordered_set<int>  acceptingStates,vector<string> allKeywords) {
 
     startState = state;
     nfaMap = std::move(nfa);
+
     inputs = std::move(inputsVector);
     accept = std::move(acceptingStates);
+    for(int i = 0;i< allKeywords.size();i++){
+        keywords.insert(allKeywords[i]);
+    }
 }
 
 bool acceptState = false;
@@ -39,6 +43,7 @@ vector<DFAState> ConversionToDFA::convertToDFA() {
         vector<int> equivalentNFA = state.getNFAEquivalent();
         for (unsigned int i = 0; i < inputs.size(); i++) {
             acceptState = false;
+            token = "";
             vector<int> nextStates = getInputTransitions(equivalentNFA, inputs.at(i));
             vector<int> finalNextStates = addNestedEquivalentStates(nextStates);
             if (!finalNextStates.empty()) {
@@ -106,7 +111,10 @@ vector<int> ConversionToDFA::addNestedEquivalentStates(vector<int> states) {
         int stateID = statesQueue.front();
         if (accept.find(stateID) != accept.end()) {
             acceptState = true;
-            token = nfaMap.at(stateID).getToken();
+            string currentToken = nfaMap.at(stateID).getToken();
+            if(keywords.find(token) == keywords.end()){
+                token = currentToken;
+            }
         }
         nfaEpsilonEquivalent.push_back(stateID);
         statesQueue.pop();

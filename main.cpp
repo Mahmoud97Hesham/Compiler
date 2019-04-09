@@ -81,7 +81,7 @@ int main() {
 */
 
   LexicalRulesParser lexical;
-    lexical.readLexicalRules("LexicalRules");
+    lexical.readLexicalRules("LexicalRules.txt");
 
 
 
