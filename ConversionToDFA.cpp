@@ -10,6 +10,7 @@
 
 
 ConversionToDFA::ConversionToDFA(int state, vector<NFAStatee> nfa, vector<string> inputsVector,unordered_set<int>  acceptingStates) {
+
     startState = state;
     nfaMap = std::move(nfa);
     inputs = std::move(inputsVector);

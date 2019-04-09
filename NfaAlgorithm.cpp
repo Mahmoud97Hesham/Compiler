@@ -7,12 +7,14 @@
 #include "NFAState.h"
 #include <unordered_set>
 #include <iostream>
-
+#include <iterator>
+#include "MinimizeDFA.h"
+#include "ConversionToDFA.h"
+#include "LexicalAnaLyzerGenerator.h"
 
 void NfaAlgorithm::Algorithm(string token,string regularExpression) {
 
-
-    cout<< token<<" "<<"&"<<regularExpression<<"&"<<endl;
+cout<< token <<" "<<regularExpression<<endl;
     int parenthesisCounter = 0;
     string epsilon = "epsilon";
     if(NfaStates.size()==0){
@@ -124,7 +126,6 @@ void NfaAlgorithm::Algorithm(string token,string regularExpression) {
             NfaStates.push_back(dummyState);
             acceptedStates.insert(NfaStates.back().getId());
         } else if (regularExpression[i] == '\\') {
-
             i++;
             stateIdCounter++;
             NFAStatee dummyState(stateIdCounter);
@@ -291,15 +292,4 @@ unordered_set<int> NfaAlgorithm::getAcceptedStates()  {
 void NfaAlgorithm::setAcceptedStates(int order) {
     this->acceptedStates.insert(order);
 }
-
-
-
-/*
-NFAStatee NfaAlgorithm ::getStarState() {
-
-
-    return this->starState;
-}
-*/
-
 

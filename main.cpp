@@ -80,8 +80,8 @@ int main() {
 //   cout << l[b] <<endl;
 */
 
-  //LexicalRulesParser lexical;
-//    lexical.readLexicalRules("LexicalRules");
+  LexicalRulesParser lexical;
+    lexical.readLexicalRules("LexicalRules");
 
 
 
@@ -90,6 +90,7 @@ int main() {
 
 
 
+/*
 
 
 NfaAlgorithm testNfa;
@@ -182,6 +183,7 @@ vector<string> tttt = testNfa.get_All_inputs();
         outputFile << test[i] << endl;
     }
 
+*/
 
 
 
