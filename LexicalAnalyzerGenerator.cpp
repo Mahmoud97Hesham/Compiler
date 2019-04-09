@@ -10,6 +10,7 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
   int nextState = 1;
   vector<string> result;
   string token = "";
+  bool lastWasSpace = true;
   while(getline(file,line)) {
     int i = 0;
     char c = line[i];
@@ -17,13 +18,17 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
     
     while(c != 0) {
       if(c == ' ' || c == '\t') {
-        token += " >> " + minimizedDFA[nextState].getToken();
-        result.push_back(token);
-        nextState = 1;
-        token = "";
+        if(!lastWasSpace) {
+          token += " >> " + minimizedDFA[nextState].getToken();
+          result.push_back(token);
+          nextState = 1;
+          token = "";
+          lastWasSpace = true;
+        }
       } else {
         int oldState = nextState;
         nextState = minimizedDFA[nextState].nextState(cInString);
+        lastWasSpace = false;
         if(nextState == 0) {
           token += " >> " + minimizedDFA[oldState].getToken();
           result.push_back(token);
