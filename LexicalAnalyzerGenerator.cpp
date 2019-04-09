@@ -41,7 +41,7 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
       c = line[++i];
       cInString = string(1, c);
     }
-    bool lastWasSpace = true;
+    lastWasSpace = true;
     if(minimizedDFA[nextState].isAcceptable()) {
       token += " >> " + minimizedDFA[nextState].getToken();
       result.push_back(token);
