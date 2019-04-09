@@ -80,8 +80,10 @@ int main() {
 //   cout << l[b] <<endl;
 */
 
-  // LexicalRulesParser lexical;
-    //lexical.readLexicalRules("LexicalRules");
+  //LexicalRulesParser lexical;
+//    lexical.readLexicalRules("LexicalRules");
+
+
 
 
 
@@ -99,23 +101,21 @@ NfaAlgorithm testNfa;
 
     testNfa.Algorithm("num","(0|1|2|3|4|5|6|7|8|9)+|(0|1|2|3|4|5|6|7|8|9)+.((0|1|2|3|4|5|6|7|8|9)+)(\\L|E((0|1|2|3|4|5|6|7|8|9)+))");
     testNfa.Algorithm("id","(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)((a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)|(0|1|2|3|4|5|6|7|8|9))*");
-    testNfa.Algorithm(";",";");
-    testNfa.Algorithm(",",",");
+
     testNfa.Algorithm("relop","\\=\\=|!\\=|>\\=|<|<\\=");
-    testNfa.Algorithm(";",";");
-    testNfa.Algorithm("(","\\(");
-    testNfa.Algorithm(")","\\)");
+    testNfa.Algorithm("assign","=");
+    testNfa.Algorithm("addop","\\+|-");
+    testNfa.Algorithm("mulop","\\*|/");
     testNfa.Algorithm("if","if");
     testNfa.Algorithm("while","while");
     testNfa.Algorithm("else","else");
     testNfa.Algorithm("int","int");
+    testNfa.Algorithm(";",";");
+    testNfa.Algorithm(",",",");
+    testNfa.Algorithm("\\(","\\(");
+    testNfa.Algorithm("\\)","\\)");
     testNfa.Algorithm("{","{");
     testNfa.Algorithm("}","}");
-    testNfa.Algorithm("addop","\\+|-");
-    testNfa.Algorithm("mulop","\\*|/");
-    testNfa.Algorithm("assign","=");
-
-
 vector<string> tttt = testNfa.get_All_inputs();
   vector<NFAStatee> states = testNfa.getNfaStates();
   for (int i=0;i<states.size();i++){
@@ -181,6 +181,8 @@ vector<string> tttt = testNfa.get_All_inputs();
     for(int i = 0; i < test.size(); ++i) {
         outputFile << test[i] << endl;
     }
+
+
 
 
 
