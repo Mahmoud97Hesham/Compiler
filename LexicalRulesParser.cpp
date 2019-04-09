@@ -32,13 +32,16 @@ void LexicalRulesParser::handleKeywords(string keywords){
         else if(splitedString[i].find('{') != string::npos){
             splitedString[i].erase(remove(splitedString[i].begin(), splitedString[i].end(), '{'), splitedString[i].end());
             allKeywords.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
         else if(splitedString[i].find('}') != string::npos){
             splitedString[i].erase(remove(splitedString[i].begin(), splitedString[i].end(), '}'), splitedString[i].end());
             allKeywords.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
         else{
             allKeywords.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
     }
 }
@@ -52,13 +55,16 @@ void LexicalRulesParser::handlePunctuations(string punctuations){
         else if(splitedString[i].find('[') != string::npos){
             splitedString[i].erase(remove(splitedString[i].begin(), splitedString[i].end(), '['), splitedString[i].end());
             allPunctuations.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
         else if(splitedString[i].find(']') != string::npos){
             splitedString[i].erase(remove(splitedString[i].begin(), splitedString[i].end(), ']'), splitedString[i].end());
             allPunctuations.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
         else{
             allPunctuations.push_back(splitedString[i]);
+            nfaAlg.Algorithm(splitedString[i],splitedString[i]);
         }
     }
 }
@@ -230,6 +236,13 @@ void LexicalRulesParser::readLexicalRules(string fileName){
         }
         errorInLineNumber++;
     }
+    /*for(int i = 0; i < allKeywords.size(); i++){
+        nfaAlg.Algorithm(allKeywords[i],allKeywords[i]);
+    }
+
+    for(int i = 0; i < allPunctuations.size(); i++){
+        nfaAlg.Algorithm(allPunctuations[i],allPunctuations[i]);
+    }*/
     vector<NFAStatee> nfa = nfaAlg.getNfaStates();
     vector<NFAStatee> temp;
     for(int i = 0 ; i < nfa.size();i++){
@@ -239,15 +252,6 @@ void LexicalRulesParser::readLexicalRules(string fileName){
     for(int i = 0 ; i < temp.size();i++){
         temp[nfa.at(i).getId()] = nfa.at(i);
     }
-
-    for(int i = 0; i < allKeywords.size(); i++){
-        nfaAlg.Algorithm(allKeywords[i],allKeywords[i]);
-    }
-
-    for(int i = 0; i < allPunctuations.size(); i++){
-        nfaAlg.Algorithm(allPunctuations[i],allPunctuations[i]);
-    }
-
     unordered_set<int> accept = nfaAlg.getAcceptedStates();
     ConversionToDFA convert(0,temp,nfaAlg.get_All_inputs(),accept);
     vector<DFAState> v = convert.convertToDFA();
