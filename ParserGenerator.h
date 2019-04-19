@@ -1,5 +1,4 @@
 #include "ProductionRule.h"
-
 using namespace std;
 
 class ParserGenerator {
