@@ -10,4 +10,5 @@ class Symbol {
   string getName();
   void setTerminal(bool);
   bool isTerminal();
+  bool isEqual(string);
 };

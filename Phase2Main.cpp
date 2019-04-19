@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ProductionRule.h"
 using namespace std;
 
@@ -12,6 +13,9 @@ int main() {
 
   prVec.push_back(pr1);
 
+  
+  cout << s2.isEqual("STATEMENT_LIST") << endl;   // should print true
+  
   ProductionRule pr2 = ProductionRule(s2);
   Symbol s3 = Symbol("STATEMENT");
   pr2.addSymbol(s3, true);

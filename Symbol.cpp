@@ -21,3 +21,7 @@ void Symbol::setTerminal(bool _terminal) {
 bool Symbol::isTerminal() {
   return terminal;
 }
+
+bool Symbol::isEqual(string comparableName) {
+  return name.compare(comparableName) == 0;
+}
