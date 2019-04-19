@@ -26,7 +26,7 @@ int main() {
   pr1.addSymbol(E, false);
   prVec.push_back(pr1);
 
-  cout << A.isEqual("a") << endl;   // should print true
+  cout << A.isEqual("a") << endl;   // should print false
   
   ProductionRule pr2 = ProductionRule(A);
   pr2.addSymbol(a, true);
