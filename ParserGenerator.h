@@ -9,10 +9,14 @@ class ParserGenerator {
   vector<bool> firstFollowEvaluated;
   public:
   ParserGenerator(vector<ProductionRule>);
-  vector<SymbolsSet> getFisrt();
+  vector<SymbolsSet> getFirst();
+  vector<SymbolsSet> getFollow();
   private:
   void generateFirst(int);
   void firstLeftRecursive(int, SymbolsSet, int);
   int getNTSymbolProductionRuleIndex(Symbol);
   Symbol getNextSymbol(SymbolsSet, Symbol);
+  void generateFollow(int);
+  void copyFollow(int, int);
+  void copyFirstToFollow(int, int, SymbolsSet, int);
 };

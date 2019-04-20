@@ -77,8 +77,9 @@ void example1() {
   prVec.push_back(pr6);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void example2() {
@@ -118,8 +119,9 @@ void example2() {
   prVec.push_back(pr3);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void example3() {
@@ -175,8 +177,9 @@ void example3() {
   prVec.push_back(pr5);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void example4() {
@@ -230,8 +233,9 @@ void example4() {
   prVec.push_back(pr4);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void example5() {
@@ -269,8 +273,9 @@ void example5() {
   prVec.push_back(pr3);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void example6() {
@@ -331,8 +336,9 @@ void example6() {
   prVec.push_back(pr6);
   
   ParserGenerator pg = ParserGenerator(prVec);
-  vector<SymbolsSet> pgFirst = pg.getFisrt();
+  vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
+  printSymbolsSetVector(pg.getFollow());
 }
 
 void printSymbolsSetVector(vector<SymbolsSet> ssVec) {
