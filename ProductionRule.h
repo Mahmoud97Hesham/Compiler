@@ -8,4 +8,7 @@ class ProductionRule {
   public:
   ProductionRule(Symbol);
   void addSymbol(Symbol, bool);
+  Symbol getName();
+  SymbolsSet getRHS(int);
+  unsigned long getRHSSize();
 };

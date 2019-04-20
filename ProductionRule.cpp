@@ -14,3 +14,15 @@ void ProductionRule::addSymbol(Symbol s, bool newSet) {
       RHS.back().addSymbol(s);
   }
 }
+
+Symbol ProductionRule::getName() {
+  return name;
+}
+
+SymbolsSet ProductionRule::getRHS(int index) {
+  return RHS[index];
+}
+
+unsigned long ProductionRule::getRHSSize() {
+  return RHS.size();
+}

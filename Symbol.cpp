@@ -25,3 +25,7 @@ bool Symbol::isTerminal() {
 bool Symbol::isEqual(string comparableName) {
   return name.compare(comparableName) == 0;
 }
+
+bool Symbol::isEpsilon() {
+  return name.compare("epsilon") == 0;
+}

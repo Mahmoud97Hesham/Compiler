@@ -11,4 +11,5 @@ class Symbol {
   void setTerminal(bool);
   bool isTerminal();
   bool isEqual(string);
+  bool isEpsilon();
 };
