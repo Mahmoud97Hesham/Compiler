@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int main() {
+/*int main() {
    /* NFAStatee temp1(0);
     NFAStatee temp2(1);
     NFAStatee temp3(2);
@@ -80,8 +80,8 @@ int main() {
 //   cout << l[b] <<endl;
 */
 
-  LexicalRulesParser lexical;
-    lexical.readLexicalRules("LexicalRules.txt");
+  /*LexicalRulesParser lexical;
+    lexical.readLexicalRules("LexicalRules");*/
 
 
 
@@ -193,5 +193,5 @@ vector<string> tttt = testNfa.get_All_inputs();
 
 
 
-  return 0;
-}
+  /*return 0;
+}*/
