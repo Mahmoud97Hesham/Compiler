@@ -1,8 +1,9 @@
 #include <iostream>
-#include "ParserGenerator.h"
+#include "SyntaxRulesParser.h"
+
 using namespace std;
 
-void example1();
+/*void example1();
 void example2();
 void example3();
 void example4();
@@ -10,21 +11,24 @@ void example5();
 void example6();
 void example7();
 void example8();
-void printSymbolsSetVector(vector<SymbolsSet>);
+void printSymbolsSetVector(vector<SymbolsSet>);*/
 
 int main() {
-  example1();
-//  example2();
-//  example3();
-//  example4();
-//  example5();
-//  example6();
-//  example7();
-//  example8();
+  /*example1();
+  example2();
+  example3();
+  example4();
+  example5();
+  example6();
+  example7();
+  example8();*/
+  SyntaxRulesParser syntax;
+  syntax.readSyntaxRules("SyntaxRules");
+
   return 0;
 }
 
-void example1() {
+/*void example1() {
   vector<ProductionRule> prVec;
   
   Symbol S = Symbol("S");
@@ -468,4 +472,4 @@ void printSymbolsSetVector(vector<SymbolsSet> ssVec) {
     cout << endl;
   }
   cout << endl;
-}
+}*/
