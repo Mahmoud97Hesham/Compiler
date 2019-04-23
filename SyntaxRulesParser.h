@@ -20,7 +20,7 @@ class SyntaxRulesParser{
     vector<ProductionRule> productionRules;
 
 public:
-    void readSyntaxRules(string fileName);
+    vector<ProductionRule> readSyntaxRules(string fileName);
     vector<string> split(string stringToSplit,char delimiter);
     vector<string> specialSplit(string stringToSplit,char delimiter);
     void rule(string ruleLine);

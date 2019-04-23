@@ -337,7 +337,7 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
     }
 }
 
-void SyntaxRulesParser::readSyntaxRules(string fileName) {
+vector<ProductionRule> SyntaxRulesParser::readSyntaxRules(string fileName) {
     ifstream file(fileName);
     string line;
     while(getline(file,line)){
@@ -348,4 +348,5 @@ void SyntaxRulesParser::readSyntaxRules(string fileName) {
             rule(line);
         }
     }
+    return productionRules;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "ParserGenerator.h"
+#include "SyntaxRulesParser.h"
 using namespace std;
 
 void example1();
@@ -12,12 +13,14 @@ void example6();
 void printSymbolsSetVector(vector<SymbolsSet>);
 
 int main() {
-  example1();
+  //example1();
   /*example2();
   example3();
   example4();
   example5();
   example6();*/
+  SyntaxRulesParser rules;
+  ParserGenerator pg = ParserGenerator(rules.readSyntaxRules("SyntaxRules"));
   return 0;
 }
 
