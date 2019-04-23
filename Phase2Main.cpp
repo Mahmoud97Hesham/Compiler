@@ -18,8 +18,18 @@ int main() {
   example4();
   example5();
   example6();*/
+//  ofstream myfile;
+//  myfile.open ("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/example.txt");
+//  myfile << "Writing this to a file.\n";
+//  myfile.close();
   SyntaxRulesParser rules;
-  ParserGenerator pg = ParserGenerator(rules.readSyntaxRules("SyntaxRules"));
+  vector<ProductionRule> prs = rules.readSyntaxRules("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/Compiler/SyntaxRules.txt");
+  construct_LL1_grammer LL ;
+  LL.setproduction(prs);
+  prs = LL.prVecgetproduction();
+  ParserGenerator pg = ParserGenerator(prs);
+  printSymbolsSetVector(pg.getFirst());
+  printSymbolsSetVector(pg.getFollow());
   return 0;
 }
 
