@@ -1,5 +1,6 @@
-using namespace std;
+#include "ParsingTableRow.h"
 
+using namespace std;
 class ParserGenerator {
   unsigned long prSize;
   vector<ProductionRule> productionRules;
