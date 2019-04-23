@@ -9,4 +9,6 @@ class SymbolsSet {
   void addSymbolWithoutRepetition(Symbol);
   Symbol getFirst();
   vector<Symbol> getSymbolsVector();
+    vector<Symbol>* getPointerofSymbolSet();
+
 };

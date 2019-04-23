@@ -1,5 +1,5 @@
-#include "ProductionRule.h"
 using namespace std;
+#include "ProductionRule.h"
 
 class ParserGenerator {
   unsigned long prSize;

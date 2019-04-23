@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <vector>
 #include <map>
@@ -13,7 +14,8 @@
 using namespace std;
 
 int main() {
-   /* NFAStatee temp1(0);
+   */
+/* NFAStatee temp1(0);
     NFAStatee temp2(1);
     NFAStatee temp3(2);
     NFAStatee temp4(3);
@@ -78,10 +80,11 @@ int main() {
 //   b.push_back(2);
 //
 //   cout << l[b] <<endl;
-*/
+*//*
+
 
   LexicalRulesParser lexical;
-    lexical.readLexicalRules("LexicalRules.txt");
+    lexical.readLexicalRules("LexicalRules");
 
 
 
@@ -90,6 +93,7 @@ int main() {
 
 
 
+*/
 /*
 
 
@@ -183,7 +187,8 @@ vector<string> tttt = testNfa.get_All_inputs();
         outputFile << test[i] << endl;
     }
 
-*/
+*//*
+
 
 
 
@@ -194,4 +199,4 @@ vector<string> tttt = testNfa.get_All_inputs();
 
 
   return 0;
-}
+}*/

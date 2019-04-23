@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ParserGenerator.h"
+#include "construct_LL1_grammer.h"
 using namespace std;
 
 void example1();
@@ -12,11 +12,11 @@ void printSymbolsSetVector(vector<SymbolsSet>);
 
 int main() {
   example1();
-  example2();
+  /*example2();
   example3();
   example4();
   example5();
-  example6();
+  example6();*/
   return 0;
 }
 
@@ -41,6 +41,7 @@ void example1() {
   e.setTerminal(true);
   Symbol epsilon = Symbol("epsilon");
   epsilon.setTerminal(true);
+
   
   ProductionRule pr1 = ProductionRule(S);
   pr1.addSymbol(A, true);
@@ -48,12 +49,22 @@ void example1() {
   pr1.addSymbol(C, false);
   pr1.addSymbol(D, false);
   pr1.addSymbol(E, false);
+  pr1.addSymbol(A, true);
+  pr1.addSymbol(e, false);
+  pr1.addSymbol(A, true);
+  pr1.addSymbol(d, false);
+  pr1.addSymbol(A, true);
+  pr1.addSymbol(c, false);
+
   prVec.push_back(pr1);
   
   //  cout << A.isEqual("a") << endl;   // should print false
   
   ProductionRule pr2 = ProductionRule(A);
-  pr2.addSymbol(a, true);
+  pr2.addSymbol(B, true);
+  pr2.addSymbol(a, false);
+  pr2.addSymbol(B, true);
+  pr2.addSymbol(d, false);
   pr2.addSymbol(epsilon, true);
   prVec.push_back(pr2);
   
@@ -75,11 +86,31 @@ void example1() {
   pr6.addSymbol(e, true);
   pr6.addSymbol(epsilon, true);
   prVec.push_back(pr6);
-  
-  ParserGenerator pg = ParserGenerator(prVec);
+
+    construct_LL1_grammer LL ;
+    LL.setproduction(prVec);
+    prVec = LL.prVecgetproduction();
+
+    for(int i=0;i<prVec.size();i++){
+        cout<< prVec.at(i).getName().getName()<<" "<<" "<<" ";
+        for(int j=0;j<prVec.at(i).getRHS().size();j++){
+          for(int k=0;k<prVec.at(i).getRHS().at(j).getSymbolsVector().size();k++) {
+
+
+            cout << prVec.at(i).getRHS().at(j).getSymbolsVector().at(k).getName() << " ";
+
+          }
+          if(j<prVec.at(i).getRHS().at(j).getSymbolsVector().size()){
+          cout<<"|";}
+        }
+        cout<<endl;
+    }
+
+
+  /* ParserGenerator pg = ParserGenerator(prVec);
   vector<SymbolsSet> pgFirst = pg.getFirst();
   printSymbolsSetVector(pgFirst);
-  printSymbolsSetVector(pg.getFollow());
+  printSymbolsSetVector(pg.getFollow());*/
 }
 
 void example2() {

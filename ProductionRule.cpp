@@ -1,4 +1,5 @@
 #include "ProductionRule.h"
+#include <iostream>
 
 ProductionRule::ProductionRule(Symbol _name) {
   name = _name;
@@ -26,3 +27,14 @@ SymbolsSet ProductionRule::getRHS(int index) {
 unsigned long ProductionRule::getRHSSize() {
   return RHS.size();
 }
+
+vector<SymbolsSet> ProductionRule::getRHS() {
+  return this->RHS;
+}
+vector<SymbolsSet> *ProductionRule::getAllRHSpointer() {
+  return &this->RHS;
+}
+SymbolsSet* ProductionRule::getRHSPointer(int index) {
+    return &RHS[index];
+}
+

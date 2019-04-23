@@ -6,7 +6,7 @@ class Symbol {
   bool terminal;
   public:
   Symbol();
-  Symbol(string);
+   Symbol(string);
   string getName();
   void setTerminal(bool);
   bool isTerminal();
