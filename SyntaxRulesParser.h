@@ -9,7 +9,6 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include "Symbol.h"
 #include "ProductionRule.h"
 #include <algorithm>
 
@@ -23,8 +22,10 @@ class SyntaxRulesParser{
 public:
     void readSyntaxRules(string fileName);
     vector<string> split(string stringToSplit,char delimiter);
+    vector<string> specialSplit(string stringToSplit,char delimiter);
     void rule(string ruleLine);
     void restOfRule(string restOfRuleLine);
+    int counting(string rule);
 };
 
 #endif //LEXICALANALYZER_SYNTAXRULESPARSER_H

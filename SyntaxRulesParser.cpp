@@ -14,8 +14,30 @@ vector<string> SyntaxRulesParser::split(string stringToSplit, char delimiter) {
     return splitedString;
 }
 
+int SyntaxRulesParser::counting(string rule) {
+    int countEqual = count(rule.begin(), rule.end(), '=');
+    return countEqual;
+}
+
+vector<string> SyntaxRulesParser::specialSplit(string stringToSplit, char delimiter) {
+    int pos = stringToSplit.find(delimiter);
+    vector<string> splittedString;
+    splittedString.push_back(stringToSplit.substr(0,pos));
+    string right = stringToSplit.substr(pos);
+    right.replace(0,1,"");
+    splittedString.push_back(right);
+    return splittedString;
+}
+
 void SyntaxRulesParser::rule(string ruleLine) {
-    vector<string> splitedRule = split(ruleLine,'=');
+    int countEqual = counting(ruleLine);
+    vector<string> splitedRule;
+    if(countEqual > 1){
+        splitedRule = specialSplit(ruleLine,'=');
+    }
+    else{
+        splitedRule = split(ruleLine,'=');
+    }
     splitedRule[0].erase(remove(splitedRule[0].begin(), splitedRule[0].end(), '#'), splitedRule[0].end());
     splitedRule[0].erase(remove(splitedRule[0].begin(), splitedRule[0].end(), ' '), splitedRule[0].end());
     Symbol currentSymbol;
@@ -37,11 +59,11 @@ void SyntaxRulesParser::rule(string ruleLine) {
         vector<string> splittedByOr = split(splitedRule[1],'|');
         for(int i = 0;i < splittedByOr.size();i++){
             if(i == splittedByOr.size() - 1){
-                splittedByOr[i].erase(splittedByOr[i].at(0));
+                splittedByOr[i].replace(0,1,"");
             }
             else{
-                splittedByOr[i].erase(splittedByOr[i].at(0));
-                splittedByOr[i].erase(splittedByOr[i].at(splittedByOr[i].length() - 1));
+                splittedByOr[i].replace(0,1,"");
+                splittedByOr[i].pop_back();
             }
         }
         for(int i = 0;i < splittedByOr.size();i++){
@@ -62,6 +84,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                         if(!found){
                             terminalSymbol = Symbol(splitBySpace[j]);
                             terminalSymbol.setTerminal(true);
+                            symbols.push_back(terminalSymbol);
                         }
                         if(j == 0){
                             currentProductionRule.addSymbol(terminalSymbol, true);
@@ -82,6 +105,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                         }
                         if(!found){
                             nonTerminalSymbol = Symbol(splitBySpace[j]);
+                            symbols.push_back(nonTerminalSymbol);
                         }
                         if(j == 0){
                             currentProductionRule.addSymbol(nonTerminalSymbol, true);
@@ -107,6 +131,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                     if(!found){
                         terminalSymbol = Symbol(splittedByOr[i]);
                         terminalSymbol.setTerminal(true);
+                        symbols.push_back(terminalSymbol);
                     }
                     currentProductionRule.addSymbol(terminalSymbol, true);
                 }
@@ -122,16 +147,16 @@ void SyntaxRulesParser::rule(string ruleLine) {
                     }
                     if(!found){
                         nonTerminalSymbol = Symbol(splittedByOr[i]);
+                        symbols.push_back(nonTerminalSymbol);
                     }
                     currentProductionRule.addSymbol(nonTerminalSymbol, true);
                 }
             }
         }
-        productionRules.push_back(currentProductionRule);
     }
     else{
         if(splitedRule[1].at(0) == ' '){
-            splitedRule[1].erase(splitedRule[1].at(0));
+            splitedRule[1].replace(0,1,"");
         }
         if(splitedRule[1].find(' ') != string::npos){
             vector<string> splitBySpace = split(splitedRule[1],' ');
@@ -150,6 +175,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                     if(!found){
                         terminalSymbol = Symbol(splitBySpace[i]);
                         terminalSymbol.setTerminal(true);
+                        symbols.push_back(terminalSymbol);
                     }
                     if(i == 0){
                         currentProductionRule.addSymbol(terminalSymbol, true);
@@ -170,6 +196,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                     }
                     if(!found){
                         nonTerminalSymbol = Symbol(splitBySpace[i]);
+                        symbols.push_back(nonTerminalSymbol);
                     }
                     if(i == 0){
                         currentProductionRule.addSymbol(nonTerminalSymbol, true);
@@ -195,6 +222,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                 if(!found){
                     terminalSymbol = Symbol(splitedRule[1]);
                     terminalSymbol.setTerminal(true);
+                    symbols.push_back(terminalSymbol);
                 }
                 currentProductionRule.addSymbol(terminalSymbol, true);
             }
@@ -210,6 +238,7 @@ void SyntaxRulesParser::rule(string ruleLine) {
                 }
                 if(!found){
                     nonTerminalSymbol = Symbol(splitedRule[1]);
+                    symbols.push_back(nonTerminalSymbol);
                 }
                 currentProductionRule.addSymbol(nonTerminalSymbol, true);
             }
@@ -219,8 +248,8 @@ void SyntaxRulesParser::rule(string ruleLine) {
 }
 
 void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
-    restOfRuleLine.erase(restOfRuleLine.at(0));
-    restOfRuleLine.erase(restOfRuleLine.at(0));
+    restOfRuleLine.replace(0,1,"");
+    restOfRuleLine.replace(0,1,"");
     if(restOfRuleLine.find(' ') != string::npos){
         vector<string> splitBySpace = split(restOfRuleLine,' ');
         for(int i = 0;i < splitBySpace.size();i++){
@@ -238,6 +267,7 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
                 if(!found){
                     terminalSymbol = Symbol(splitBySpace[i]);
                     terminalSymbol.setTerminal(true);
+                    symbols.push_back(terminalSymbol);
                 }
                 if(i == 0){
                     productionRules[productionRules.size() - 1].addSymbol(terminalSymbol, true);
@@ -258,6 +288,7 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
                 }
                 if(!found){
                     nonTerminalSymbol = Symbol(splitBySpace[i]);
+                    symbols.push_back(nonTerminalSymbol);
                 }
                 if(i == 0){
                     productionRules[productionRules.size() - 1].addSymbol(nonTerminalSymbol, true);
@@ -283,6 +314,7 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
             if(!found){
                 terminalSymbol = Symbol(restOfRuleLine);
                 terminalSymbol.setTerminal(true);
+                symbols.push_back(terminalSymbol);
             }
             productionRules[productionRules.size() - 1].addSymbol(terminalSymbol, true);
         }
@@ -298,6 +330,7 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
             }
             if(!found){
                 nonTerminalSymbol = Symbol(restOfRuleLine);
+                symbols.push_back(nonTerminalSymbol);
             }
             productionRules[productionRules.size() - 1].addSymbol(nonTerminalSymbol, true);
         }
