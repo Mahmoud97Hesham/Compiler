@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include "ParserGenerator.h"
 #include "SyntaxRulesParser.h"
 using namespace std;
 
