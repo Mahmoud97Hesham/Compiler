@@ -10,6 +10,7 @@ void example4();
 void example5();
 void example6();
 void printSymbolsSetVector(vector<SymbolsSet>);
+void simulation(ParserGenerator, Symbol);
 
 int main() {
   //example1();
@@ -22,15 +23,78 @@ int main() {
 //  myfile.open ("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/example.txt");
 //  myfile << "Writing this to a file.\n";
 //  myfile.close();
+  
   SyntaxRulesParser rules;
   vector<ProductionRule> prs = rules.readSyntaxRules("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/Compiler/SyntaxRules.txt");
   construct_LL1_grammer LL ;
   LL.setproduction(prs);
   prs = LL.prVecgetproduction();
+  for(int i = 0; i < prs.size(); ++i) {
+    cout << i;
+    cout << ") " + prs[i].getName().getName() + " = ";
+    for(int j = 0; j < prs[i].getRHSSize(); ++j) {
+      vector<Symbol> v = prs[i].getRHS(j).getSymbolsVector();
+      for(int k = 0; k < v.size(); ++k) {
+        cout << v[k].getName() + " ";
+      }
+      if(j < prs[i].getRHSSize()-1) cout << " | ";
+    }
+    cout << endl;
+  }
+  cout << endl;
   ParserGenerator pg = ParserGenerator(prs);
   printSymbolsSetVector(pg.getFirst());
   printSymbolsSetVector(pg.getFollow());
+  simulation(pg, prs[0].getName());
   return 0;
+}
+
+void simulation(ParserGenerator parserGenerator , Symbol startSympol){
+  ifstream file("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/output.txt");
+  string line;
+  vector<Symbol>input,temp ;
+  vector <Symbol>stack;
+  Symbol lastSymbol = Symbol("$");
+  stack.push_back(lastSymbol);
+  stack.push_back(startSympol);
+  
+  // get the input ready
+  while(getline(file,line)) {
+    Symbol s = Symbol(line);
+    s.setTerminal(true);
+    temp.push_back(s);
+  }
+  
+  while (temp.size()>0){
+    input.push_back(temp.back());
+    temp.pop_back();
+  }
+  
+  
+  while (stack.size()>0 && input.size() > 0){
+    vector<Symbol> newProduction = parserGenerator.getCorrespondingSymbols(stack.back(),input.back());
+    if(newProduction.size()==0){
+      if(stack.back().getName()==input.back().getName()){
+        cout << "Action :- match " << stack.back().getName()<<endl;
+        stack.pop_back();
+        input.pop_back();
+      } else {
+        cout << "Action :- error " << endl;
+        input.pop_back();
+      }
+    } else {
+      cout << "Action " << stack.back().getName() << " >> ";
+      for(int i = 0; i < newProduction.size(); ++i) {
+        cout << newProduction[i].getName() + " ";
+      }
+      cout << endl;
+      stack.pop_back();
+    }
+    while (newProduction.size() > 0) {
+      stack.push_back(newProduction.back());
+      newProduction.pop_back();
+    }
+  }
 }
 
 void example1() {
@@ -388,6 +452,8 @@ void example6() {
 void printSymbolsSetVector(vector<SymbolsSet> ssVec) {
   for(int i = 0; i < ssVec.size(); ++i) {
     vector<Symbol> symbols_i = ssVec[i].getSymbolsVector();
+    cout << i;
+    cout << ") ";
     for(int j = 0; j < symbols_i.size(); ++j) {
       cout << symbols_i[j].getName();
       if(j < symbols_i.size()-1) cout << ", ";
