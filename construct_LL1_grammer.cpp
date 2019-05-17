@@ -10,6 +10,7 @@ using namespace std;
 void construct_LL1_grammer::setproduction(vector<ProductionRule> prVec) {
 
     this->prVec = prVec;
+
     leftRecursion();
     leftFactoring();
 }
@@ -18,10 +19,11 @@ void construct_LL1_grammer::leftRecursion() {
 
    for(int i=0;i<this->prVec.size();i++){
 
+
        for (int j = 0; j <prVec.at(i).getRHSSize() ; j++) {
 
-           if (prVec.at(i).getName().getName()==prVec.at(i).getRHS(j).getFirst().getName()) {
 
+           if (prVec.at(i).getName().getName()==prVec.at(i).getRHS(j).getFirst().getName()) {
                int k=0;
                if(j==0){
                    k=1;
@@ -65,13 +67,16 @@ void construct_LL1_grammer::leftRecursion() {
 
                Symbol eps = Symbol("epsilon");
                eps.setTerminal(true);
-               pr.addSymbol(eps, true);
+
+                pr.addSymbol(eps, true);
 
 
                prVec.at(i).getAllRHSpointer()->erase(prVec.at(i).getAllRHSpointer()->begin()+j);
 
            prVec.push_back(pr);
+
            }
+
        }
 
 
@@ -93,7 +98,7 @@ vector<ProductionRule> construct_LL1_grammer::leftFactoring() {
             for(int k=j+1;k<prVec.at(i).getRHSSize();k++){
 
                 if(prVec.at(i).getRHS(j).getFirst().getName()==prVec.at(i).getRHS(k).getFirst().getName()){
-                    indexes.push_back(k-1);
+                    indexes.push_back(k);
                     their_is_factoring= true;
                 }
 
@@ -119,11 +124,15 @@ vector<ProductionRule> construct_LL1_grammer::leftFactoring() {
 
                 myvector->erase(myvector->begin());
 
+               if(myvector->size()>0){
+                pr.addSymbol(myvector->at(0),true);}
+                else{
 
-
-              if(myvector->size() > 0) {
-                pr.addSymbol(myvector->at(0),true);
-              }
+                    Symbol temp = Symbol("epsilon");
+                    temp.setTerminal(true);
+                    myvector->push_back(temp);
+                    pr.addSymbol(temp, true);
+               }
 
                 for(int y=1;y<myvector->size();y++){
                     pr.addSymbol(myvector->at(y), false);
@@ -131,16 +140,17 @@ vector<ProductionRule> construct_LL1_grammer::leftFactoring() {
 
                 prVec.at(i).getAllRHSpointer()->erase(prVec.at(i).getAllRHSpointer()->begin()+j);
 
-                int decreaser = 0;
+                int decreaser = 1;
                 for (int k = 0; k < indexes.size(); k++) {
 
-//                    cout<<indexes.at(k)<<endl;
+                    cout<<indexes.at(k)<<endl;
 
                     vector<Symbol> *myvect = prVec.at(i).getRHSPointer(indexes.at(k)-decreaser)->getPointerofSymbolSet();
 
                     myvect->erase(myvect->begin());
 
                     pr.addSymbol(myvect->at(0),true);
+
                     for(int y=1;y<myvect->size();y++){
                         pr.addSymbol(myvect->at(y), false);
                     }

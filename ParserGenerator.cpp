@@ -1,4 +1,5 @@
 #include "ParserGenerator.h"
+#include <iostream>
 
 
 ParserGenerator::ParserGenerator(vector<ProductionRule> _productionRules) {
@@ -74,9 +75,14 @@ int ParserGenerator::getNTSymbolProductionRuleIndex(Symbol symbol) {
 
 Symbol ParserGenerator::getNextSymbol(SymbolsSet ss, Symbol symbol) {
   vector<Symbol> symbolsVector = ss.getSymbolsVector();
-  for(int i = 0; i < symbolsVector.size(); ++i) {
-    if(symbolsVector[i].isEqual(symbol.getName()) && (i == symbolsVector.size()-1 || !symbolsVector[i+1].isEqual(symbol.getName()))) return symbolsVector[i+1];
-  }
+
+  for(int i = 0; i < symbolsVector.size()-1; i++) {
+    //ahmed editing
+    if(symbolsVector[i].isEqual(symbol.getName()) && (i == symbolsVector.size()-1 || !symbolsVector[i+1].isEqual(symbol.getName()))) {
+      return symbolsVector[i+1];}
+    }
+
+
   return Symbol();
 }
 
@@ -89,15 +95,22 @@ void ParserGenerator::generateFollow(int index) {
       SymbolsSet ss_j = productionRules[i].getRHS(j);
       vector<Symbol> ssVec_j = ss_j.getSymbolsVector();
       for(int k = 0; k < ssVec_j.size(); ++k) {
+
         if(ssVec_j[k].isEqual(symbol.getName())) {
+
           if(k == ssVec_j.size() - 1) {
+
             copyFollow(index, i);
           } else if(ssVec_j[k+1].isTerminal()) {
+
             follow[index].addSymbolWithoutRepetition(ssVec_j[k+1]);
           } else {
+
             copyFirstToFollow(index, i, ss_j, getNTSymbolProductionRuleIndex(ssVec_j[k+1]));
+
           }
         }
+
       }
     }
   }
@@ -112,17 +125,25 @@ void ParserGenerator::copyFollow(int follow_i, int copy_i) {
 }
 
 void ParserGenerator::copyFirstToFollow(int follow_i, int followPR_i, SymbolsSet currentSS, int copy_i) {
+
   vector<Symbol> copyFirstSymbols = first[copy_i].getSymbolsVector();
+
   for(int i = 0; i < copyFirstSymbols.size(); ++i) {
+
     if(copyFirstSymbols[i].isEpsilon()) {
+
       Symbol nextSymbol = getNextSymbol(currentSS, productionRules[copy_i].getName());
+
       if(nextSymbol.isEqual("")) copyFollow(follow_i, followPR_i);
       else if(nextSymbol.isTerminal()) follow[follow_i].addSymbolWithoutRepetition(nextSymbol);
       else copyFirstToFollow(follow_i, followPR_i, currentSS, getNTSymbolProductionRuleIndex(nextSymbol));
+
     } else {
       follow[follow_i].addSymbolWithoutRepetition(copyFirstSymbols[i]);
     }
+
   }
+
 }
 
 void ParserGenerator::addProductionRuleToParsingTable(int index, SymbolsSet ss, Symbol terminal) {
@@ -149,4 +170,3 @@ vector<Symbol> ParserGenerator::getCorrespondingSymbols(Symbol nonTerminal, Symb
   }
   return vector<Symbol>();
 }
-

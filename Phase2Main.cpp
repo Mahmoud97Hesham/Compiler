@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include "SyntaxRulesParser.h"
+#include "LexicalRulesParser.h"
+
 using namespace std;
 
 void example1();
@@ -13,7 +15,13 @@ void printSymbolsSetVector(vector<SymbolsSet>);
 void simulation(ParserGenerator, Symbol);
 
 int main() {
-  //example1();
+
+
+    LexicalRulesParser lexical;
+    lexical.readLexicalRules("LexicalRules");
+
+
+    //example1();
   /*example2();
   example3();
   example4();
@@ -25,7 +33,7 @@ int main() {
 //  myfile.close();
   
   SyntaxRulesParser rules;
-  vector<ProductionRule> prs = rules.readSyntaxRules("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/Compiler/SyntaxRules.txt");
+  vector<ProductionRule> prs = rules.readSyntaxRules("SyntaxRules.txt");
   construct_LL1_grammer LL ;
   LL.setproduction(prs);
   prs = LL.prVecgetproduction();
@@ -50,21 +58,29 @@ int main() {
 }
 
 void simulation(ParserGenerator parserGenerator , Symbol startSympol){
-  ifstream file("/Volumes/Maxtor/CSED\ 20/3rd\ Year/2nd\ Semester/Compilers/output.txt");
+  ifstream file("output.txt");
   string line;
   vector<Symbol>input,temp ;
   vector <Symbol>stack;
   Symbol lastSymbol = Symbol("$");
+  lastSymbol.setTerminal(true);
   stack.push_back(lastSymbol);
   stack.push_back(startSympol);
   
   // get the input ready
   while(getline(file,line)) {
+      if(line =="\\("){
+          line = "(";
+      } else if(line=="\\)"){
+          line = ")";
+      } else if(line == "assign"){
+          line = "=";
+      }
     Symbol s = Symbol(line);
     s.setTerminal(true);
     temp.push_back(s);
   }
-  
+  input.push_back(lastSymbol);
   while (temp.size()>0){
     input.push_back(temp.back());
     temp.pop_back();
@@ -73,6 +89,7 @@ void simulation(ParserGenerator parserGenerator , Symbol startSympol){
   
   while (stack.size()>0 && input.size() > 0){
     vector<Symbol> newProduction = parserGenerator.getCorrespondingSymbols(stack.back(),input.back());
+    cout<< "stack"<<" "<<stack.back().getName()<<" "<< "input"<< " "<<input.back().getName()<<" "<<endl;
     if(newProduction.size()==0){
       if(stack.back().getName()==input.back().getName()){
         cout << "Action :- match " << stack.back().getName()<<endl;
@@ -90,9 +107,10 @@ void simulation(ParserGenerator parserGenerator , Symbol startSympol){
       cout << endl;
       stack.pop_back();
     }
+    if (newProduction.size()>0&&newProduction.front().isEpsilon()) newProduction.pop_back();
     while (newProduction.size() > 0) {
-      stack.push_back(newProduction.back());
-      newProduction.pop_back();
+        stack.push_back(newProduction.back());
+        newProduction.pop_back();
     }
   }
 }

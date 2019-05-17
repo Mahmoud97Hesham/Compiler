@@ -15,11 +15,11 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
     int i = 0;
     char c = line[i];
     string cInString(1, c);
-    
+
     while(c != 0) {
       if(c == ' ' || c == '\t') {
         if(!lastWasSpace) {
-          token += " >> " + minimizedDFA[nextState].getToken();
+          token += minimizedDFA[nextState].getToken();
           result.push_back(token);
           nextState = 1;
           token = "";
@@ -30,12 +30,13 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
         nextState = minimizedDFA[nextState].nextState(cInString);
         lastWasSpace = false;
         if(nextState == 0) {
-          token += " >> " + minimizedDFA[oldState].getToken();
+          token += minimizedDFA[oldState].getToken();
           result.push_back(token);
           nextState = minimizedDFA[1].nextState(cInString);
-          token = c;
+          token = "";
+          // token = c;
         } else {
-          token += c;
+          // token += c;
         }
       }
       c = line[++i];
@@ -43,7 +44,7 @@ vector<string> LexicalAnaLyzerGenerator::generateLexicalOutput(string filename) 
     }
     lastWasSpace = true;
     if(minimizedDFA[nextState].isAcceptable()) {
-      token += " >> " + minimizedDFA[nextState].getToken();
+      token += minimizedDFA[nextState].getToken();
       result.push_back(token);
       nextState = 1;
       token = "";

@@ -3,6 +3,8 @@
 //
 
 #include "SyntaxRulesParser.h"
+#include <iostream>
+
 
 vector<string> SyntaxRulesParser::split(string stringToSplit, char delimiter) {
     vector<string> splitedString;
@@ -339,14 +341,21 @@ void SyntaxRulesParser::restOfRule(string restOfRuleLine) {
 
 vector<ProductionRule> SyntaxRulesParser::readSyntaxRules(string fileName) {
     ifstream file(fileName);
+
     string line;
+
     while(getline(file,line)){
+
         if(line.at(0)  != '#'){
             restOfRule(line);
         }
         else{
             rule(line);
         }
+
     }
+
+
+
     return productionRules;
 }
